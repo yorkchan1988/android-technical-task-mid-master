@@ -1,30 +1,42 @@
 package com.example.minimoneybox
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.textfield.TextInputLayout
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
 
-    lateinit var btn_sign_in : Button
-    lateinit var til_email : TextInputLayout
-    lateinit var et_email : EditText
-    lateinit var til_password : TextInputLayout
-    lateinit var et_password : EditText
-    lateinit var til_name : TextInputLayout
-    lateinit var et_name : EditText
-    lateinit var animation : LottieAnimationView
+    companion object {
+        private const val TAG = "LoginActivity"
+    }
+
+    @Inject
+    lateinit var testString: String
+
+    lateinit var btn_sign_in: Button
+    lateinit var til_email: TextInputLayout
+    lateinit var et_email: EditText
+    lateinit var til_password: TextInputLayout
+    lateinit var et_password: EditText
+    lateinit var til_name: TextInputLayout
+    lateinit var et_name: EditText
+    lateinit var animation: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setupViews()
+
+        Log.d(TAG, "onCreate: " + testString)
     }
 
     private fun setupViews() {
