@@ -1,11 +1,14 @@
-package com.example.minimoneybox
+package com.example.minimoneybox.ui.login
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
+import com.example.minimoneybox.R
+import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -19,8 +22,10 @@ class LoginActivity : DaggerAppCompatActivity() {
         private const val TAG = "LoginActivity"
     }
 
+    lateinit var viewModel: LoginViewModel
+
     @Inject
-    lateinit var testString: String
+    lateinit var viewModelProviderFactory: ViewModelProviderFactory
 
     lateinit var btn_sign_in: Button
     lateinit var til_email: TextInputLayout
@@ -34,9 +39,11 @@ class LoginActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setupViews()
 
-        Log.d(TAG, "onCreate: " + testString)
+        viewModel =
+            ViewModelProviders.of(this, viewModelProviderFactory).get(LoginViewModel::class.java)
+
+        setupViews()
     }
 
     private fun setupViews() {

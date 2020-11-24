@@ -1,21 +1,17 @@
 package com.example.minimoneybox.di
 
-import com.example.minimoneybox.LoginActivity
+import com.example.minimoneybox.di.login.LoginViewModelModule
+import com.example.minimoneybox.ui.login.LoginActivity
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuilderModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+        modules = [
+            LoginViewModelModule::class
+        ]
+    )
     abstract fun contributeLoginActivity(): LoginActivity;
-
-    @Module companion object {
-        @JvmStatic
-        @Provides
-        fun testString(): String {
-            return "DI is working."
-        }
-    }
 }
