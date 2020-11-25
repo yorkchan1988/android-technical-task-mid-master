@@ -1,5 +1,6 @@
 package com.example.minimoneybox.di
 
+import com.example.minimoneybox.SessionManager
 import com.example.minimoneybox.network.NetworkInterceptor
 import com.example.minimoneybox.util.Constants
 import dagger.Module
@@ -44,6 +45,13 @@ class AppModule {
                 .readTimeout(20, TimeUnit.SECONDS)
                 .addInterceptor(NetworkInterceptor())
             return builder.build()
+        }
+
+        @Provides
+        @JvmStatic
+        @Singleton
+        fun provideSessionManager(): SessionManager {
+            return SessionManager()
         }
     }
 }

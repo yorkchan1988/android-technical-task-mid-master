@@ -1,5 +1,6 @@
 package com.example.minimoneybox.di.login
 
+import com.example.minimoneybox.SessionManager
 import com.example.minimoneybox.network.api.LoginApi
 import com.example.minimoneybox.repository.LoginRepository
 import dagger.Module
@@ -20,8 +21,8 @@ class LoginModule {
 
         @JvmStatic
         @Provides
-        fun provideLoginRespository(authApi: LoginApi): LoginRepository {
-            return LoginRepository(authApi)
+        fun provideLoginRespository(authApi: LoginApi, sessionManager: SessionManager): LoginRepository {
+            return LoginRepository(authApi, sessionManager)
         }
     }
 }
