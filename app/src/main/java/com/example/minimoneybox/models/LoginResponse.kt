@@ -3,7 +3,7 @@ package com.example.minimoneybox.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Response (
+data class LoginResponse (
     @SerializedName("Session")
     @Expose
     var session: Session?
