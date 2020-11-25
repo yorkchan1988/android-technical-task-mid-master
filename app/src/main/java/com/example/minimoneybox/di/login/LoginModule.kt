@@ -1,6 +1,6 @@
 package com.example.minimoneybox.di.login
 
-import com.example.minimoneybox.network.LoginApi
+import com.example.minimoneybox.network.api.LoginApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

@@ -3,7 +3,7 @@ package com.example.minimoneybox.ui.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.minimoneybox.models.request.LoginRequest
-import com.example.minimoneybox.network.LoginApi
+import com.example.minimoneybox.network.api.LoginApi
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_IDFA
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
