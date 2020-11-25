@@ -1,7 +1,7 @@
 package com.example.minimoneybox.repository
 
 import android.annotation.SuppressLint
-import com.example.minimoneybox.models.LoginResponse
+import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.models.request.LoginRequest
 import com.example.minimoneybox.models.response.ErrorResponse
 import com.example.minimoneybox.network.ApiResource
@@ -22,7 +22,7 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
     private val loginApi : LoginApi = loginApi
 
 
-    fun login(email: String, password: String, idfa: String = ""): Observable<ApiResource<LoginResponse>> {
+    fun login(email: String, password: String, idfa: String = ""): Observable<ApiResource<LoginSession>> {
 
         return Observable.create { emitter ->
             // catch all unexpected errors

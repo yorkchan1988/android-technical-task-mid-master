@@ -2,7 +2,7 @@ package com.example.minimoneybox.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minimoneybox.models.LoginResponse
+import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.repository.LoginRepository
 import io.reactivex.rxkotlin.subscribeBy
@@ -15,7 +15,7 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
     }
 
     // LiveData
-    var loginApiStatus : MutableLiveData<ApiResource<LoginResponse>> = MutableLiveData()
+    var loginApiStatus : MutableLiveData<ApiResource<LoginSession>> = MutableLiveData()
 
     // API
     private val loginRepository: LoginRepository = loginRepository

@@ -86,7 +86,7 @@ class LoginActivity : DaggerAppCompatActivity() {
                     showAlert("Success", it.data?.session?.token ?: "")
                 }
                 ApiResource.ApiStatus.ERROR -> {
-                    showAlert("Error", it.error ?: "")
+                    showAlert("Error", it.error?.message ?: "")
                 }
             }
         })
