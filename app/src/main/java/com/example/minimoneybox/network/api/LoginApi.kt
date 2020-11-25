@@ -1,4 +1,4 @@
-package com.example.minimoneybox.network
+package com.example.minimoneybox.network.api
 
 import com.example.minimoneybox.models.Response
 import com.example.minimoneybox.models.request.LoginRequest

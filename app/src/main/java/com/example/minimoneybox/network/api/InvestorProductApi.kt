@@ -1,4 +1,4 @@
-package com.example.minimoneybox.network
+package com.example.minimoneybox.network.api
 
 import com.example.minimoneybox.models.AccountDetails
 import com.example.minimoneybox.models.Response
