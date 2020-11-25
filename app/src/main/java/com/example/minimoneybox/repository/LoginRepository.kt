@@ -21,7 +21,7 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
 
     private val loginApi : LoginApi = loginApi
 
-    @SuppressLint("CheckResult")
+
     fun login(email: String, password: String, idfa: String = ""): Observable<ApiResource<LoginResponse>> {
 
         return Observable.create { emitter ->
