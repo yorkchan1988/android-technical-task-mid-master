@@ -1,13 +1,18 @@
 package com.example.minimoneybox.ui.login
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
+import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.DaggerAppCompatActivity
@@ -44,6 +49,7 @@ class LoginActivity : DaggerAppCompatActivity() {
             ViewModelProviders.of(this, viewModelProviderFactory).get(LoginViewModel::class.java)
 
         setupViews()
+        subscribeObservers()
     }
 
     private fun setupViews() {
@@ -58,6 +64,43 @@ class LoginActivity : DaggerAppCompatActivity() {
 
         btn_sign_in.setOnClickListener {
             animation.playAnimation()
+
+            // login
+            val email = et_email.text.toString()
+            var password = et_password.text.toString()
+            var name = et_name.text.toString()
+            viewModel.login(email, password, name)
         }
+    }
+
+    // observe live data of viewmodel
+    private fun subscribeObservers() {
+        // observe loginApiStatus
+        // success then go to user account page
+        // fail with message then display alert
+        viewModel.loginApiStatus.observe(this, Observer {
+            when(it.status) {
+                ApiResource.ApiStatus.LOADING -> {}
+                ApiResource.ApiStatus.SUCCESS -> {
+//                    TODO("success then go to user account page")
+                    showAlert("Success", it.data?.session?.token ?: "")
+                }
+                ApiResource.ApiStatus.ERROR -> {
+                    showAlert("Error", it.error ?: "")
+                }
+            }
+        })
+    }
+
+    private fun showAlert(title: String, message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(android.R.string.ok) {
+            dialog: DialogInterface?, which: Int ->
+            Toast.makeText(applicationContext,
+                android.R.string.yes, Toast.LENGTH_SHORT).show()
+        }
+        builder.show()
     }
 }

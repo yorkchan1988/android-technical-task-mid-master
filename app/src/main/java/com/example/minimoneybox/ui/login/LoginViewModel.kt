@@ -1,32 +1,31 @@
 package com.example.minimoneybox.ui.login
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minimoneybox.models.request.LoginRequest
-import com.example.minimoneybox.network.api.LoginApi
-import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
-import com.example.minimoneybox.util.Constants.Companion.LOGIN_IDFA
-import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
-import io.reactivex.schedulers.Schedulers
+import com.example.minimoneybox.models.LoginResponse
+import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.repository.LoginRepository
+import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(loginApi: LoginApi) : ViewModel() {
+class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : ViewModel() {
 
     companion object {
         private const val TAG = "LoginViewModel"
     }
 
-    val loginApi: LoginApi
+    // LiveData
+    var loginApiStatus : MutableLiveData<ApiResource<LoginResponse>> = MutableLiveData()
 
-    init {
-        this.loginApi = loginApi
+    // API
+    private val loginRepository: LoginRepository = loginRepository
 
-        loginApi.login(LoginRequest(LOGIN_EMAIL, LOGIN_PASSWORD, LOGIN_IDFA))
-            .toObservable()
-            .subscribeOn(Schedulers.io())
-            .subscribe(
-                { result -> Log.d(TAG, "result : "+result.session?.token)},
-                { error -> Log.e(TAG, "error : "+error.localizedMessage )}
-            )
+    fun login(email: String, password: String, name: String) {
+        // if fail with validation errors
+        // update livedata of error messages of edit text
+        loginRepository.login(email, password).subscribeBy {
+            loginApiStatus.postValue(it)
+//            TODO("if fail with validation errors, update livedata of error messages of edit text")
+        }
     }
 }
