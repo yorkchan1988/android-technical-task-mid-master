@@ -23,6 +23,10 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:label="@string/title_user_accounts" />
+
     </application>
 
 </manifest>

@@ -18,6 +18,10 @@ class SessionManager @Inject constructor() {
         private const val TAG = "SessionManager"
     }
 
+    enum class AuthStatus {AUTHENTICATED, NOT_AUTHENTICATED}
+
+    var authStatus: MutableLiveData<AuthStatus> = MutableLiveData(AuthStatus.NOT_AUTHENTICATED)
+
     private var token: String? = null
 
     fun getBearerToken(): String? {
@@ -25,10 +29,12 @@ class SessionManager @Inject constructor() {
     }
 
     fun login(token: String) {
+        authStatus.value = AuthStatus.AUTHENTICATED
         this.token = token
     }
 
     fun logout() {
+        authStatus.value = AuthStatus.AUTHENTICATED
         this.token = null
     }
 }

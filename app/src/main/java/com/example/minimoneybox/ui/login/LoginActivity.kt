@@ -1,6 +1,7 @@
 package com.example.minimoneybox.ui.login
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.ui.main.MainActivity
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.DaggerAppCompatActivity
@@ -82,14 +84,19 @@ class LoginActivity : DaggerAppCompatActivity() {
             when(it.status) {
                 ApiResource.ApiStatus.LOADING -> {}
                 ApiResource.ApiStatus.SUCCESS -> {
-//                    TODO("success then go to user account page")
-                    showAlert("Success", it.data?.session?.token ?: "")
+                    onLoginSuccess()
                 }
                 ApiResource.ApiStatus.ERROR -> {
                     showAlert("Error", it.error?.message ?: "")
                 }
             }
         })
+    }
+
+    private fun onLoginSuccess() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun showAlert(title: String, message: String) {
