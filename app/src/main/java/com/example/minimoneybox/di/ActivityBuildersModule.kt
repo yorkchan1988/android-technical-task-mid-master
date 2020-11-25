@@ -3,6 +3,7 @@ package com.example.minimoneybox.di
 import com.example.minimoneybox.di.login.LoginModule
 import com.example.minimoneybox.di.login.LoginViewModelModule
 import com.example.minimoneybox.di.main.MainFragmentBuildersModule
+import com.example.minimoneybox.di.main.MainViewModelsModule
 import com.example.minimoneybox.ui.login.LoginActivity
 import com.example.minimoneybox.ui.main.MainActivity
 import dagger.Module
@@ -21,7 +22,8 @@ abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(
         modules = [
-            MainFragmentBuildersModule::class
+            MainFragmentBuildersModule::class,
+            MainViewModelsModule::class
         ]
     )
     abstract fun contributeMainActivity(): MainActivity
