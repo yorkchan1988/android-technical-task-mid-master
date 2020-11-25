@@ -49,10 +49,16 @@ class LoginRepository @Inject constructor(loginApi: LoginApi, sessionManager: Se
                             }
                         },
                         { error ->
-                            // api returns error, parse error response and return error response object
-                            val errorResponseString = (error as HttpException).response().errorBody()?.string()
-                            val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
-                            emitter.onNext(ApiResource.Error(null, errorResponse))
+
+                            if (error is HttpException) {
+                                // api returns error, parse error response and return error response object
+                                val errorResponseString = error.response().errorBody()?.string()
+                                val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
+                                emitter.onNext(ApiResource.Error(null, errorResponse))
+                            }
+                            else {
+                                emitter.onError(error)
+                            }
                         }
                     )
             }
