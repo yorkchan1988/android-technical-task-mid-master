@@ -14,14 +14,13 @@
 
     <!-- Strings related to user accounts -->
     <string name="title_user_accounts">User Accounts</string>
-    <string name="greeting_msg">Hello {Name} !</string>
-    <string name="pound_unit">£</string>
-    <string name="text_total_plan_value">Total Plan Value</string>
-    <string name="text_plan_value">Plan Value</string>
-    <string name="text_money_box">Moneybox</string>
+    <string name="greeting_msg">Hello %s!</string>
+    <string name="text_total_plan_value">Total Plan Value: £%d</string>
+    <string name="text_plan_value">Plan Value: £%d</string>
+    <string name="text_money_box">Moneybox: £%d</string>
 
     <!-- Strings related to individual account -->
-    <string name="button_add">Add</string>
+    <string name="button_add">Add £%d</string>
 
 <!--    Lottie files-->
     <string name="lottie_owl_coin_shower">owl_coin_shower.json</string>
