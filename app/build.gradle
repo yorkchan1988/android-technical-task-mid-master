@@ -27,7 +27,7 @@ android {
         }
     }
     buildFeatures {
-        dataBinding = true
+        dataBinding true
     }
 }
 
@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.airbnb.android:lottie:3.0.0'
+    kapt 'com.android.databinding:compiler:2.3.1'
 
     // dagger
     def dagger_version = "2.22"
