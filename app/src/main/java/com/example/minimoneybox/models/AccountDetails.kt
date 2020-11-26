@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class AccountDetails(
     @SerializedName("TotalPlanValue")
     @Expose
-    var totalPlanValue: String,
+    var totalPlanValue: Double,
     @SerializedName("ProductResponses")
     @Expose
     var products: List<InvestorProduct>
