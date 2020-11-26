@@ -8,7 +8,7 @@ sealed class ApiResource<T>(
     val error: ErrorResponse? = null
 ) {
     class Success<T>(data: T) : ApiResource<T>(ApiStatus.SUCCESS, data)
-    class Loading<T>(data: T? = null) : ApiResource<T>(ApiStatus.LOADING)
+    class Loading<T>() : ApiResource<T>(ApiStatus.LOADING)
     class Error<T>(data: T? = null, error: ErrorResponse?) : ApiResource<T>(ApiStatus.ERROR, data, error)
 
     enum class ApiStatus {SUCCESS, ERROR, LOADING}
