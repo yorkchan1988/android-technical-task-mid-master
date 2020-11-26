@@ -12,29 +12,29 @@ import javax.inject.Singleton
 // 2. get bearer token from keystore
 // 3. clear bearer token if session expired
 @Singleton
-class SessionManager @Inject constructor() {
-
-    companion object {
-        private const val TAG = "SessionManager"
-    }
+class SessionManager {
 
     enum class AuthStatus {AUTHENTICATED, NOT_AUTHENTICATED}
 
-    var authStatus: MutableLiveData<AuthStatus> = MutableLiveData(AuthStatus.NOT_AUTHENTICATED)
+    companion object {
+        private const val TAG = "SessionManager"
 
-    private var token: String? = null
+        var authStatus: MutableLiveData<AuthStatus> = MutableLiveData(AuthStatus.NOT_AUTHENTICATED)
 
-    fun getBearerToken(): String? {
-        return token
-    }
+        private var token: String? = null
 
-    fun login(token: String) {
-        authStatus.value = AuthStatus.AUTHENTICATED
-        this.token = token
-    }
+        fun getBearerToken(): String? {
+            return token
+        }
 
-    fun logout() {
-        authStatus.value = AuthStatus.AUTHENTICATED
-        this.token = null
+        fun login(token: String) {
+            authStatus.value = AuthStatus.AUTHENTICATED
+            this.token = token
+        }
+
+        fun logout() {
+            authStatus.value = AuthStatus.AUTHENTICATED
+            this.token = null
+        }
     }
 }
