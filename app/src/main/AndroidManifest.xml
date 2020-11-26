@@ -24,8 +24,7 @@
 
         </activity>
         <activity
-            android:name=".ui.main.MainActivity"
-            android:label="@string/title_user_accounts" />
+            android:name=".ui.main.MainActivity" />
 
     </application>
 
