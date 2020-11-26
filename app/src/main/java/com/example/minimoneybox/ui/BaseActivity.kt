@@ -11,8 +11,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
-    @Inject
-    lateinit var sessionManager: SessionManager
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +18,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeAuthStatus() {
-        sessionManager.authStatus.observe(this,
+        SessionManager.authStatus.observe(this,
             Observer { authStatus ->
                 if (authStatus == SessionManager.AuthStatus.NOT_AUTHENTICATED) {
                     navLoginScreen()

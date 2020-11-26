@@ -46,12 +46,5 @@ class AppModule {
                 .addInterceptor(NetworkInterceptor())
             return builder.build()
         }
-
-        @Provides
-        @JvmStatic
-        @Singleton
-        fun provideSessionManager(): SessionManager {
-            return SessionManager()
-        }
     }
 }
