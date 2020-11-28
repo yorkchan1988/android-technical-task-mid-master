@@ -1,0 +1,10 @@
+{
+  "Name": "Validation failed",
+  "Message": "Please correct the following fields:",
+  "ValidationErrors": [
+    {
+      "Name": "Email",
+      "Message": "The email address you entered is not valid."
+    }
+  ]
+}
