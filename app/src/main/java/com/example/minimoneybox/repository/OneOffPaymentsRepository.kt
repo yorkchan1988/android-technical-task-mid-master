@@ -39,8 +39,7 @@ class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaym
                         { error ->
                             if (error is HttpException) {
                                 // api returns error, parse error response and return error response object
-                                val errorResponseString = error.response().errorBody()?.string()
-                                val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
+                                val errorResponse = ErrorResponse.fromHttpException(error)
                                 emitter.onNext(ApiResource.Error(null, errorResponse))
                             }
                             else {

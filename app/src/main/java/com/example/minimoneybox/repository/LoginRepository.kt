@@ -24,6 +24,10 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
 
     private val loginApi : LoginApi = loginApi
 
+    fun getLoginApiRequest(email: String, password: String, idfa: String = ""): LoginRequest {
+        return LoginRequest(email, password, idfa)
+    }
+
     fun login(email: String, password: String, idfa: String = ""): Observable<ApiResource<LoginSession>> {
 
         return Observable.create { emitter ->
@@ -32,7 +36,8 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
                 // start to call api, change api status to loading
                 emitter.onNext(ApiResource.Loading())
 
-                loginApi.login(LoginRequest(email, password, idfa))
+                val requestParam = getLoginApiRequest(email, password, idfa)
+                loginApi.login(requestParam)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -52,8 +57,7 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
 
                             if (error is HttpException) {
                                 // api returns error, parse error response and return error response object
-                                val errorResponseString = error.response().errorBody()?.string()
-                                val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
+                                val errorResponse = ErrorResponse.fromHttpException(error)
                                 emitter.onNext(ApiResource.Error(null, errorResponse))
                             }
                             else {
