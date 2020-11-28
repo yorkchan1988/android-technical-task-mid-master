@@ -20,5 +20,8 @@ class Constants {
         const val LOGIN_EMAIL: String = "jaeren+androidtest@moneyboxapp.com"
         const val LOGIN_PASSWORD: String = "P455word12"
         const val LOGIN_IDFA: String = "ANYTHING"
+
+        // INTENT EXTRA KEY
+        const val USERNAME: String = "USERNAME"
     }
 }

@@ -9,10 +9,10 @@ data class InvestorProduct(
     var id: String,
     @SerializedName("PlanValue")
     @Expose
-    var planValue: String,
+    var planValue: Double,
     @SerializedName("Moneybox")
     @Expose
-    var moneyboxValue: String,
+    var moneyboxValue: Double,
     @SerializedName("SubscriptionAmount")
     @Expose
     var subscriptionAmount: Float,

@@ -5,6 +5,7 @@ import com.example.minimoneybox.network.api.LoginApi
 import com.example.minimoneybox.network.api.OneOffPaymentsApi
 import com.example.minimoneybox.repository.InvestorProductsRepository
 import com.example.minimoneybox.repository.OneOffPaymentsRepository
+import com.example.minimoneybox.ui.main.useraccounts.InvestorProductsRecyclerAdapter
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -37,6 +38,12 @@ class MainModule {
         @Provides
         fun provideOneOffPaymentsRespository(oneOffPaymentsApi: OneOffPaymentsApi): OneOffPaymentsRepository {
             return OneOffPaymentsRepository(oneOffPaymentsApi)
+        }
+
+        @JvmStatic
+        @Provides
+        fun provideInvestorProductsRecyclerAdapter(): InvestorProductsRecyclerAdapter {
+            return InvestorProductsRecyclerAdapter()
         }
     }
 

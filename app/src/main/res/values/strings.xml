@@ -16,8 +16,8 @@
     <string name="title_user_accounts">User Accounts</string>
     <string name="greeting_msg">Hello %s!</string>
     <string name="text_total_plan_value">Total Plan Value: £%d</string>
-    <string name="text_plan_value">Plan Value: £%d</string>
-    <string name="text_money_box">Moneybox: £%d</string>
+    <string name="text_plan_value">Plan Value: £%.0f</string>
+    <string name="text_money_box">Moneybox: £%.0f</string>
 
     <!-- Strings related to individual account -->
     <string name="button_add">Add £%d</string>
