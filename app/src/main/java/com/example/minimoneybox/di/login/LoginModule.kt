@@ -21,7 +21,7 @@ class LoginModule {
 
         @JvmStatic
         @Provides
-        fun provideLoginRespository(loginApi: LoginApi): LoginRepository {
+        fun provideLoginRepository(loginApi: LoginApi): LoginRepository {
             return LoginRepository(loginApi)
         }
     }
