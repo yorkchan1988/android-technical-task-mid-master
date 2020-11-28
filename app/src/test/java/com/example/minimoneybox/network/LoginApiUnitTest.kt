@@ -6,9 +6,7 @@ import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.models.Session
 import com.example.minimoneybox.models.request.LoginRequest
 import com.example.minimoneybox.models.response.ErrorResponse
-import com.example.minimoneybox.models.response.ValidationError
 import com.example.minimoneybox.network.api.LoginApi
-import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_IDFA
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
@@ -18,7 +16,6 @@ import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
@@ -37,7 +34,7 @@ class LoginApiUnitTest {
     private fun createMockResponse(code: Int, jsonFileName: String): MockResponse {
         val mockResponse = MockResponse()
         mockResponse.setResponseCode(code)
-        mockResponse.setBody(FileUtils.readTestResourceFile(jsonFileName))
+        mockResponse.setBody(FileUtils.readTestResourceFile(jsonFileName, "login"))
         return mockResponse
     }
 
@@ -93,17 +90,19 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Validation failed"
-                val isMessageValid = errorResponse.message == "Please correct the following fields:"
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 2
-                    isValidationValid = isValidationValid && it[0].errorName == "Email"
-                    isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
-                    isValidationValid = isValidationValid && it[1].errorName == "Email"
-                    isValidationValid = isValidationValid && it[1].message == "The email address you entered is not valid."
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == "Validation failed"
+                    val isMessageValid = res.message == "Please correct the following fields:"
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.size == 2
+                        isValidationValid = isValidationValid && it[0].errorName == "Email"
+                        isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
+                        isValidationValid = isValidationValid && it[1].errorName == "Email"
+                        isValidationValid = isValidationValid && it[1].message == "The email address you entered is not valid."
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -126,15 +125,17 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Validation failed"
-                val isMessageValid = errorResponse.message == "Please correct the following fields:"
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 1
-                    isValidationValid = isValidationValid && it[0].errorName == "Email"
-                    isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == "Validation failed"
+                    val isMessageValid = res.message == "Please correct the following fields:"
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.size == 1
+                        isValidationValid = isValidationValid && it[0].errorName == "Email"
+                        isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -157,13 +158,15 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Login failed"
-                val isMessageValid = errorResponse.message == "Incorrect email address or password. Please check and try again."
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 0
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == "Login failed"
+                    val isMessageValid = res.message == "Incorrect email address or password. Please check and try again."
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.isEmpty()
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -186,15 +189,17 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Validation failed"
-                val isMessageValid = errorResponse.message == "Please correct the following fields:"
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 1
-                    isValidationValid = isValidationValid && it[0].errorName == "Password"
-                    isValidationValid = isValidationValid && it[0].message == "Your password must be at least 10 characters and include one number, one upper case character and one lower case character."
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let { res ->
+                    val isNameValid = res.errorName == "Validation failed"
+                    val isMessageValid = res.message == "Please correct the following fields:"
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.size == 1
+                        isValidationValid = isValidationValid && it[0].errorName == "Password"
+                        isValidationValid = isValidationValid && it[0].message == "Your password must be at least 10 characters and include one number, one upper case character and one lower case character."
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -217,13 +222,15 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Login failed"
-                val isMessageValid = errorResponse.message == "Incorrect email address or password. Please check and try again."
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 0
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == "Login failed"
+                    val isMessageValid = res.message == "Incorrect email address or password. Please check and try again."
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.isEmpty()
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -246,19 +253,21 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == "Validation failed"
-                val isMessageValid = errorResponse.message == "Please correct the following fields:"
-                var isValidationValid = errorResponse.validationErrors != null
-                errorResponse.validationErrors?.let {
-                    isValidationValid = isValidationValid && it.size == 3
-                    isValidationValid = isValidationValid && it[0].errorName == "Email"
-                    isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
-                    isValidationValid = isValidationValid && it[1].errorName == "Email"
-                    isValidationValid = isValidationValid && it[1].message == "The email address you entered is not valid."
-                    isValidationValid = isValidationValid && it[2].errorName == "Password"
-                    isValidationValid = isValidationValid && it[2].message == "Your password must be at least 10 characters and include one number, one upper case character and one lower case character."
-                }
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == "Validation failed"
+                    val isMessageValid = res.message == "Please correct the following fields:"
+                    var isValidationValid = res.validationErrors != null
+                    res.validationErrors?.let {
+                        isValidationValid = isValidationValid && it.size == 3
+                        isValidationValid = isValidationValid && it[0].errorName == "Email"
+                        isValidationValid = isValidationValid && it[0].message == "The email address you entered is not valid."
+                        isValidationValid = isValidationValid && it[1].errorName == "Email"
+                        isValidationValid = isValidationValid && it[1].message == "The email address you entered is not valid."
+                        isValidationValid = isValidationValid && it[2].errorName == "Password"
+                        isValidationValid = isValidationValid && it[2].message == "Your password must be at least 10 characters and include one number, one upper case character and one lower case character."
+                    }
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: false
             }
             else {
                 false
@@ -269,7 +278,7 @@ class LoginApiUnitTest {
     @Test
     fun login_unexpectedEmptyResponse() {
         // GIVEN
-        val mockResponse = createMockResponse(HttpURLConnection.HTTP_BAD_REQUEST, "login_unexpected_empty_response.json")
+        val mockResponse = createMockResponse(HttpURLConnection.HTTP_BAD_REQUEST, "login_api_unexpected_empty_response.json")
         mockWebServer.enqueue(mockResponse)
 
         // WHEN
@@ -281,10 +290,12 @@ class LoginApiUnitTest {
         testObserver.assertError {error ->
             if (error is HttpException) {
                 val errorResponse = ErrorResponse.fromHttpException(error)
-                val isNameValid = errorResponse.errorName == null
-                val isMessageValid = errorResponse.message == null
-                var isValidationValid = errorResponse.validationErrors == null
-                isNameValid && isMessageValid && isValidationValid
+                errorResponse?.let {res ->
+                    val isNameValid = res.errorName == null
+                    val isMessageValid = res.message == null
+                    var isValidationValid = res.validationErrors == null
+                    isNameValid && isMessageValid && isValidationValid
+                } ?: true
             }
             else {
                 false
