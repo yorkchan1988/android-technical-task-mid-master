@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.ui.main.MainActivity
+import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
+import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
+import com.example.minimoneybox.util.Constants.Companion.USERNAME
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.DaggerAppCompatActivity
@@ -48,7 +50,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         viewModel =
-            ViewModelProviders.of(this, viewModelProviderFactory).get(LoginViewModel::class.java)
+            ViewModelProvider(this, viewModelProviderFactory).get(LoginViewModel::class.java)
 
         setupViews()
         subscribeObservers()
@@ -58,10 +60,13 @@ class LoginActivity : DaggerAppCompatActivity() {
         btn_sign_in = findViewById(R.id.btn_sign_in)
         til_email = findViewById(R.id.til_email)
         et_email = findViewById(R.id.et_email)
+        et_email.setText(LOGIN_EMAIL)
         til_password = findViewById(R.id.til_password)
         et_password = findViewById(R.id.et_password)
+        et_password.setText(LOGIN_PASSWORD)
         til_name = findViewById(R.id.til_name)
         et_name = findViewById(R.id.et_name)
+        et_name.setText("York")
         animation = findViewById(R.id.animation)
 
         btn_sign_in.setOnClickListener {
@@ -70,8 +75,8 @@ class LoginActivity : DaggerAppCompatActivity() {
             // login
             val email = et_email.text.toString()
             var password = et_password.text.toString()
-            var name = et_name.text.toString()
-            viewModel.login(email, password, name)
+
+            viewModel.login(email, password)
         }
     }
 
@@ -95,6 +100,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     private fun onLoginSuccess() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(USERNAME, et_name.text.toString())
         startActivity(intent)
         finish()
     }

@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
     // API
     private val loginRepository: LoginRepository = loginRepository
 
-    fun login(email: String, password: String, name: String) {
+    fun login(email: String, password: String) {
         // if fail with validation errors
         // update livedata of error messages of edit text
         loginRepository.login(email, password).subscribeBy {
