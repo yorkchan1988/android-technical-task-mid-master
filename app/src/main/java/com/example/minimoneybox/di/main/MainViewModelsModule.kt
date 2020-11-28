@@ -2,6 +2,7 @@ package com.example.minimoneybox.di.main
 
 import androidx.lifecycle.ViewModel
 import com.example.minimoneybox.di.ViewModelKey
+import com.example.minimoneybox.ui.main.individualaccount.IndividualAccountViewModel
 import com.example.minimoneybox.ui.main.useraccounts.UserAccountsViewModel
 import dagger.Binds
 import dagger.Module
@@ -14,4 +15,9 @@ abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(UserAccountsViewModel::class)
     abstract fun bindUserAccountsViewModel(viewModel: UserAccountsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(IndividualAccountViewModel::class)
+    abstract fun bindIndividualAccountViewModel(viewModel: IndividualAccountViewModel): ViewModel
 }
