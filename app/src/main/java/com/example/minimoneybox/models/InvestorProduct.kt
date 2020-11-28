@@ -18,7 +18,7 @@ data class InvestorProduct(
     var moneyboxValue: Double,
     @SerializedName("SubscriptionAmount")
     @Expose
-    var subscriptionAmount: Float,
+    var subscriptionAmount: Double,
     @SerializedName("Product")
     @Expose
     var product: ProductDetail

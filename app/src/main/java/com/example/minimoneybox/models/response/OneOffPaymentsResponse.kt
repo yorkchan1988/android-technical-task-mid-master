@@ -6,5 +6,5 @@ import com.google.gson.annotations.SerializedName
 data class OneOffPaymentsResponse(
     @SerializedName("Moneybox")
     @Expose
-    var moneybox : String
+    var moneybox : Double
 )
