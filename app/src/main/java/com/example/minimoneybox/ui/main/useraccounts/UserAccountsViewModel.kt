@@ -1,7 +1,6 @@
 package com.example.minimoneybox.ui.main.useraccounts
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.AccountDetails
@@ -22,7 +21,7 @@ class UserAccountsViewModel
     }
 
     // LiveData
-    var accountDetailsApiStatus: MutableLiveData<ApiResource<AccountDetails>> = MutableLiveData()
+    var apiStatus: MutableLiveData<ApiResource<AccountDetails>> = MutableLiveData()
     var error: MutableLiveData<Exception> = MutableLiveData()
 
     var usernameText: MutableLiveData<String> = MutableLiveData("")
@@ -44,18 +43,20 @@ class UserAccountsViewModel
         // update livedata of error messages of edit text
         investorProductsRepository.getInvestorProducts().subscribeBy(
             onNext = {
-                if (it.status == ApiResource.ApiStatus.SUCCESS) {
-                    accountDetailsApiStatus.postValue(it)
+                when (it.status) {
+                    ApiResource.ApiStatus.SUCCESS -> {
+                        apiStatus.postValue(it)
 
-                    it.data?.let {
-                        totalPlanValue.postValue(it.totalPlanValue?.toInt())
-                        products.postValue((it.products))
+                        it.data?.let {
+                            totalPlanValue.postValue(it.totalPlanValue?.toInt())
+                            products.postValue((it.products))
+                        }
                     }
-                }
-                else if (it.status == ApiResource.ApiStatus.ERROR) {
-                    it.error?.let {errorRes ->
-                        errorRes.message?.let {msg ->
-                            error.postValue(ApiException(msg))
+                    ApiResource.ApiStatus.ERROR -> {
+                        it.error?.let {errorRes ->
+                            errorRes.message?.let {msg ->
+                                error.postValue(ApiException(msg))
+                            }
                         }
                     }
                 }

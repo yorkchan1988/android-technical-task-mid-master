@@ -1,12 +1,10 @@
 package com.example.minimoneybox.ui.main.useraccounts
 
-import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.FragmentUseraccountsBinding
+import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.ui.main.MainActivity
 import com.example.minimoneybox.util.Constants
+import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 class UserAccountsFragment: DaggerFragment() {
     companion object {
-        private const val TAG = "UserAccountsFragment"
+        const val TAG = "UserAccountsFrag"
     }
 
     lateinit var viewModel: UserAccountsViewModel
@@ -73,7 +74,7 @@ class UserAccountsFragment: DaggerFragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.accountDetailsApiStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.apiStatus.observe(viewLifecycleOwner, Observer {
             if (it.status == ApiResource.ApiStatus.LOADING) {
 
             }
@@ -81,32 +82,27 @@ class UserAccountsFragment: DaggerFragment() {
 
         viewModel.error.observe(viewLifecycleOwner, Observer {exception ->
             exception.message?.let { message ->
-                showAlert("Error", message)
+                SimpleAlertDialog.showAlert(activity,"Error", message)
             }
         })
 
         viewModel.products.observe(viewLifecycleOwner, Observer {
             adapter.setInvestorProducts(it)
-        })
-    }
-
-    private fun showAlert(title: String, message: String) {
-        activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.setTitle(title)
-            builder.setMessage(message)
-            builder.setPositiveButton(android.R.string.ok) { dialog: DialogInterface?, which: Int ->
-                Toast.makeText(
-                    activity,
-                    android.R.string.yes, Toast.LENGTH_SHORT
-                ).show()
+            adapter.setListener {
+                Log.d(TAG, "subscribeObservers: "+it.planValue)
+                navigateToIndividualAccount(it)
             }
-            builder.show()
-        }
+        })
     }
 
     private fun initRecyclerView() {
         recyclerView.setLayoutManager(LinearLayoutManager(activity))
         recyclerView.setAdapter(adapter)
+    }
+
+    private fun navigateToIndividualAccount(investorProduct: InvestorProduct) {
+        (activity as MainActivity)?.let {
+            it.navigateToIndividualAccount(investorProduct)
+        }
     }
 }

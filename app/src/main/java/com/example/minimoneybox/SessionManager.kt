@@ -33,7 +33,7 @@ class SessionManager {
         }
 
         fun logout() {
-            authStatus.value = AuthStatus.AUTHENTICATED
+            authStatus.value = AuthStatus.NOT_AUTHENTICATED
             this.token = null
         }
     }

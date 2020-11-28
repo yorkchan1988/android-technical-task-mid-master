@@ -23,5 +23,6 @@ class Constants {
 
         // INTENT EXTRA KEY
         const val USERNAME: String = "USERNAME"
+        const val INVESTOR_PRODUCT: String = "INVESTOR_PRODUCT"
     }
 }

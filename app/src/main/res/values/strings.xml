@@ -20,7 +20,7 @@
     <string name="text_money_box">Moneybox: £%.0f</string>
 
     <!-- Strings related to individual account -->
-    <string name="button_add">Add £%d</string>
+    <string name="button_add">Add £%.0f</string>
 
 <!--    Lottie files-->
     <string name="lottie_owl_coin_shower">owl_coin_shower.json</string>

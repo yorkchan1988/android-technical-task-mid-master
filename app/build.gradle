@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+
 repositories {
     google()
 }
@@ -28,6 +30,9 @@ android {
     }
     buildFeatures {
         dataBinding true
+    }
+    androidExtensions {
+        experimental = true
     }
 }
 

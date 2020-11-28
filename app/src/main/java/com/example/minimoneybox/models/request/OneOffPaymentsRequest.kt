@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class OneOffPaymentsRequest(
     @SerializedName("Amount")
     @Expose
-    var amount: Int,
+    var amount: Float,
     @SerializedName("InvestorProductId")
     @Expose
     var investorProductId: Int

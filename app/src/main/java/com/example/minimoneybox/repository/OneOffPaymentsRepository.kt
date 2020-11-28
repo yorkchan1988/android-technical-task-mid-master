@@ -21,7 +21,7 @@ class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaym
 
     private val oneOffPaymentsApi : OneOffPaymentsApi = oneOffPaymentsApi
 
-    fun oneOffPayments(amount: Int, investorProductId: Int): Observable<ApiResource<OneOffPaymentsResponse>> {
+    fun oneOffPayments(amount: Float, investorProductId: Int): Observable<ApiResource<OneOffPaymentsResponse>> {
 
         return Observable.create { emitter ->
             // catch all unexpected errors
