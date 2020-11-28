@@ -17,7 +17,7 @@ data class ErrorResponse(
     var validationErrors: List<ValidationError>?
 ) {
     companion object {
-        fun fromHttpException(error: HttpException): ErrorResponse {
+        fun fromHttpException(error: HttpException): ErrorResponse? {
             val errorResponseString = error.response().errorBody()?.string()
             val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
             return errorResponse
