@@ -32,10 +32,10 @@ class UserAccountsViewModel
     private val investorProductsRepository: InvestorProductsRepository = investorProductsRepository
 
     // Custom variable
-    var username: String? = null
+    var username: String? = ""
         set(value) {
-            field = value
-            usernameText.postValue(value)
+            field = value ?: ""
+            usernameText.postValue(field)
         }
 
     fun getInvestorProducts() {

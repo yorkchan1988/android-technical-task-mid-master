@@ -1,6 +1,7 @@
 package com.example.minimoneybox.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.minimoneybox.R
 import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.*
 import com.example.minimoneybox.models.response.ErrorResponse
@@ -38,6 +39,30 @@ class UserAccountsViewModelUnitTest {
         // create mock objects
         MockitoAnnotations.initMocks(this)
         userAccountsViewModel = UserAccountsViewModel(investorProductsRepository)
+    }
+
+    @Test
+    fun setUsername_nonNullValue() {
+        // GIVEN
+        val username = "Test Username"
+
+        // WHEN
+        userAccountsViewModel.username = username
+
+        // THEN
+        assertEquals(username, userAccountsViewModel.usernameText.value)
+    }
+
+    @Test
+    fun setUsername_nullValue() {
+        // GIVEN
+        val username = null
+
+        // WHEN
+        userAccountsViewModel.username = username
+
+        // THEN
+        assertEquals("", userAccountsViewModel.usernameText.value)
     }
 
     @Test
