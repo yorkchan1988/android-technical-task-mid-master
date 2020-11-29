@@ -55,7 +55,8 @@ class UserAccountsViewModel
                     ApiResource.ApiStatus.ERROR -> {
                         it.error?.let {errorRes ->
                             errorRes.message?.let {msg ->
-                                error.postValue(ApiException(msg))
+                                val name = errorRes.errorName ?: "Error"
+                                error.postValue(ApiException(name, msg))
                             }
                         }
                     }

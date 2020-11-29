@@ -1,13 +1,10 @@
 package com.example.minimoneybox.repository
 
-import com.example.minimoneybox.models.AccountDetails
-import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.models.request.OneOffPaymentsRequest
 import com.example.minimoneybox.models.response.ErrorResponse
 import com.example.minimoneybox.models.response.OneOffPaymentsResponse
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.network.api.OneOffPaymentsApi
-import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException

@@ -42,9 +42,10 @@ class IndividualAccountViewModel @Inject constructor(oneOffPaymentsRepository: O
                             apiStatus.postValue(it)
                         }
                         ApiResource.ApiStatus.ERROR -> {
-                            it.error?.let { errorRes ->
-                                errorRes.message?.let { msg ->
-                                    error.postValue(ApiException(msg))
+                            it.error?.let {errorRes ->
+                                errorRes.message?.let {msg ->
+                                    val name = errorRes.errorName ?: "Error"
+                                    error.postValue(ApiException(name, msg))
                                 }
                             }
                         }

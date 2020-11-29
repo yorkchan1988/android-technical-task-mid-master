@@ -21,6 +21,10 @@ class Constants {
         const val LOGIN_PASSWORD: String = "P455word12"
         const val LOGIN_IDFA: String = "ANYTHING"
 
+        // LOGIN API VALIDATION ERROR KEY
+        const val LOGIN_VALIDATION_ERROR_KEY_EMAIL = "Email"
+        const val LOGIN_VALIDATION_ERROR_KEY_PASSWORD = "Password"
+
         // INTENT EXTRA KEY
         const val USERNAME: String = "USERNAME"
         const val INVESTOR_PRODUCT: String = "INVESTOR_PRODUCT"

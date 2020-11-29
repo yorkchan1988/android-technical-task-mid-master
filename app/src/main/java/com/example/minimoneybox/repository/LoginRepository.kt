@@ -1,15 +1,12 @@
 package com.example.minimoneybox.repository
 
-import android.annotation.SuppressLint
 import com.example.minimoneybox.SessionManager
 import com.example.minimoneybox.exception.UnexpectedException
 import com.example.minimoneybox.models.LoginSession
-import com.example.minimoneybox.models.Session
 import com.example.minimoneybox.models.request.LoginRequest
 import com.example.minimoneybox.models.response.ErrorResponse
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.network.api.LoginApi
-import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException

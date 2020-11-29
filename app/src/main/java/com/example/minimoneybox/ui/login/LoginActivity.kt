@@ -85,7 +85,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         // observe loginApiStatus
         // success then go to user account page
         // fail with message then display alert
-        viewModel.loginApiStatus.observe(this, Observer {
+        viewModel.apiStatus.observe(this, Observer {
             when(it.status) {
                 ApiResource.ApiStatus.LOADING -> {}
                 ApiResource.ApiStatus.SUCCESS -> {
