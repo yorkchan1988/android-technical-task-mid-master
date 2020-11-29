@@ -37,6 +37,7 @@
 
         <Button
             android:id="@+id/btn_subscription"
+            style="@style/Widget.Button.Colored.Rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_moneybox"
