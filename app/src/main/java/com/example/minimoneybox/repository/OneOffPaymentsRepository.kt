@@ -29,6 +29,7 @@ class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaym
                     .subscribeOn(Schedulers.io())
                     .subscribe(
                         { data ->
+                            // api return success, return the parsed data object
                             emitter.onNext(ApiResource.Success(data))
                             emitter.onComplete()
                         },
