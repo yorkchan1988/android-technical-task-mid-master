@@ -16,30 +16,35 @@ class MainModule {
     @Module
     companion object {
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideInvestorProductsApi(retrofit: Retrofit): InvestorProductsApi {
             return retrofit.create(InvestorProductsApi::class.java)
         }
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideOneOffPaymentsApi(retrofit: Retrofit): OneOffPaymentsApi {
             return retrofit.create(OneOffPaymentsApi::class.java)
         }
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideInvestorProductsRespository(investorProductsApi: InvestorProductsApi): InvestorProductsRepository {
             return InvestorProductsRepository(investorProductsApi)
         }
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideOneOffPaymentsRespository(oneOffPaymentsApi: OneOffPaymentsApi): OneOffPaymentsRepository {
             return OneOffPaymentsRepository(oneOffPaymentsApi)
         }
 
+        @MainScope
         @JvmStatic
         @Provides
         fun provideInvestorProductsRecyclerAdapter(): InvestorProductsRecyclerAdapter {

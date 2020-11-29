@@ -13,12 +13,14 @@ class LoginModule {
     @Module
     companion object {
 
+        @LoginScope
         @JvmStatic
         @Provides
         fun provideLoginApi(retrofit: Retrofit): LoginApi {
             return retrofit.create(LoginApi::class.java)
         }
 
+        @LoginScope
         @JvmStatic
         @Provides
         fun provideLoginRepository(loginApi: LoginApi): LoginRepository {
