@@ -35,11 +35,6 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
             onNext = {
                 apiStatus.postValue(it)
                 when (it.status) {
-                    ApiResource.ApiStatus.SUCCESS -> {
-                        // if success
-                        // return apiStatus directly
-
-                    }
                     ApiResource.ApiStatus.ERROR -> {
                         // if error
                         // return apiStatus
@@ -52,6 +47,10 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
                                         val name = errorRes.errorName ?: "Error"
                                         error.postValue(ApiException(name, msg))
                                     }
+
+                                    // reset error text
+                                    emailErrorText.postValue("")
+                                    passwordErrorText.postValue("")
                                 }
                                 // if no, update errorErrorText and passwordErrorText LiveData
                                 else {
@@ -70,6 +69,9 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
             onError = {
                 apiStatus.postValue(ApiResource.Error(null, null))
                 error.postValue(it as Exception)
+                // reset error text
+                emailErrorText.postValue("")
+                passwordErrorText.postValue("")
             }
         )
     }

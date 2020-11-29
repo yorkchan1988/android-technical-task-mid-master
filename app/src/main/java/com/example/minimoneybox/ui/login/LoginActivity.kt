@@ -5,20 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
+import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.ui.main.MainActivity
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
 import com.example.minimoneybox.util.Constants.Companion.USERNAME
+import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import com.google.android.material.textfield.TextInputLayout
 import dagger.android.support.DaggerAppCompatActivity
@@ -47,6 +46,8 @@ class LoginActivity : DaggerAppCompatActivity() {
     lateinit var et_name: EditText
     lateinit var animation: LottieAnimationView
     lateinit var llprogressBar: LinearLayout
+    lateinit var tv_email_error: TextView
+    lateinit var tv_password_error: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,14 +72,16 @@ class LoginActivity : DaggerAppCompatActivity() {
         et_name = findViewById(R.id.et_name)
         et_name.setText("York")
         animation = findViewById(R.id.animation)
-        llprogressBar = findViewById(R.id.llProgressBar)
+        llprogressBar = findViewById(R.id.ll_progress_bar)
+        tv_email_error = findViewById(R.id.tv_email_error)
+        tv_password_error = findViewById(R.id.tv_password_error)
 
         btn_sign_in.setOnClickListener {
             animation.playAnimation()
 
             // login
             val email = et_email.text.toString()
-            var password = et_password.text.toString()
+            val password = et_password.text.toString()
 
             viewModel.login(email, password)
         }
@@ -95,14 +98,34 @@ class LoginActivity : DaggerAppCompatActivity() {
                     llprogressBar.visibility = View.VISIBLE
                 }
                 ApiResource.ApiStatus.SUCCESS -> {
-//                    llprogressBar.visibility = View.GONE
+                    llprogressBar.visibility = View.GONE
                     onLoginSuccess()
                 }
                 ApiResource.ApiStatus.ERROR -> {
-//                    llprogressBar.visibility = View.GONE
-                    showAlert("Error", it.error?.message ?: "")
+                    llprogressBar.visibility = View.GONE
                 }
             }
+        })
+
+        viewModel.error.observe(this, Observer {exception ->
+            if (exception is ApiException) {
+                val name = exception.name
+                val message = exception.message
+                SimpleAlertDialog.showAlert(this,name, message)
+            }
+            else {
+                exception.message?.let { message ->
+                    SimpleAlertDialog.showAlert(this,"Error", message)
+                }
+            }
+        })
+
+        viewModel.emailErrorText.observe(this, Observer {
+            tv_email_error.setText(it)
+        })
+
+        viewModel.passwordErrorText.observe(this, Observer {
+            tv_password_error.setText(it)
         })
     }
 
@@ -111,17 +134,5 @@ class LoginActivity : DaggerAppCompatActivity() {
         intent.putExtra(USERNAME, et_name.text.toString())
         startActivity(intent)
         finish()
-    }
-
-    private fun showAlert(title: String, message: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.setPositiveButton(android.R.string.ok) {
-            dialog: DialogInterface?, which: Int ->
-            Toast.makeText(applicationContext,
-                android.R.string.yes, Toast.LENGTH_SHORT).show()
-        }
-        builder.show()
     }
 }

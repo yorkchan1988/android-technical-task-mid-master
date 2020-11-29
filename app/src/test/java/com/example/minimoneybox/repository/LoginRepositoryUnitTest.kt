@@ -52,8 +52,8 @@ class LoginRepositoryUnitTest {
     fun getLoginApiRequest_correctInput() {
         // GIVEN
         val email = LOGIN_EMAIL
-        var password = LOGIN_PASSWORD
-        var idfa = LOGIN_IDFA
+        val password = LOGIN_PASSWORD
+        val idfa = LOGIN_IDFA
         // THEN
         val loginRequest = LoginRequest(email, password, idfa)
         // WHEN

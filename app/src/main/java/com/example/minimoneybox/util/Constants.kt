@@ -28,5 +28,11 @@ class Constants {
         // INTENT EXTRA KEY
         const val USERNAME: String = "USERNAME"
         const val INVESTOR_PRODUCT: String = "INVESTOR_PRODUCT"
+
+        // Key Store
+        const val SECRET_KEY_ALIAS: String = "It is a secret key alias."
+        const val ANDROID_KEY_STORE: String = "AndroidKeyStore"
+        const val AES_MODE: String = "AES/GCM/NoPadding"
+        const val FIXED_IV: String = "FIXED_IV"
     }
 }

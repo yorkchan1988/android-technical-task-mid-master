@@ -33,14 +33,14 @@ class MainModule {
         @MainScope
         @JvmStatic
         @Provides
-        fun provideInvestorProductsRespository(investorProductsApi: InvestorProductsApi): InvestorProductsRepository {
+        fun provideInvestorProductsRepository(investorProductsApi: InvestorProductsApi): InvestorProductsRepository {
             return InvestorProductsRepository(investorProductsApi)
         }
 
         @MainScope
         @JvmStatic
         @Provides
-        fun provideOneOffPaymentsRespository(oneOffPaymentsApi: OneOffPaymentsApi): OneOffPaymentsRepository {
+        fun provideOneOffPaymentsRepository(oneOffPaymentsApi: OneOffPaymentsApi): OneOffPaymentsRepository {
             return OneOffPaymentsRepository(oneOffPaymentsApi)
         }
 

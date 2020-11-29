@@ -17,7 +17,7 @@ class NetworkInterceptor: Interceptor {
         var request = chain.request()
 
         // add required headers to each api before calling
-        var builder = request.newBuilder()
+        val builder = request.newBuilder()
             .addHeader(HEADER_KEY_APP_ID, HEADER_VALUE_APP_ID)
             .addHeader(HEADER_KEY_CONTENT_TYPE, HEADER_VALUE_CONTENT_TYPE)
             .addHeader(HEADER_KEY_APP_VERSION, HEADER_VALUE_APP_VERSION)

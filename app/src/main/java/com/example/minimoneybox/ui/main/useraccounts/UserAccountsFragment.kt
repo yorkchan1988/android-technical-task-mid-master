@@ -33,7 +33,6 @@ class UserAccountsFragment: DaggerFragment() {
 
     lateinit var viewModel: UserAccountsViewModel
     lateinit var recyclerView: RecyclerView
-    lateinit var llprogressBar: View
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
@@ -66,8 +65,6 @@ class UserAccountsFragment: DaggerFragment() {
         recyclerView = binding.rvUserAccounts
         initRecyclerView()
 
-        llprogressBar = binding.llProgressBar
-
         return binding.root
     }
 
@@ -80,19 +77,6 @@ class UserAccountsFragment: DaggerFragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.apiStatus.observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                ApiResource.ApiStatus.LOADING -> {
-                    llprogressBar.visibility = View.VISIBLE
-                }
-                ApiResource.ApiStatus.SUCCESS -> {
-                    llprogressBar.visibility = View.GONE
-                }
-                ApiResource.ApiStatus.ERROR -> {
-                    llProgressBar.visibility = View.GONE
-                }
-            }
-        })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {exception ->
             if (exception is ApiException) {
@@ -123,8 +107,6 @@ class UserAccountsFragment: DaggerFragment() {
     }
 
     private fun navigateToIndividualAccount(investorProduct: InvestorProduct) {
-        (activity as MainActivity)?.let {
-            it.navigateToIndividualAccount(investorProduct)
-        }
+        (activity as MainActivity).navigateToIndividualAccount(investorProduct)
     }
 }

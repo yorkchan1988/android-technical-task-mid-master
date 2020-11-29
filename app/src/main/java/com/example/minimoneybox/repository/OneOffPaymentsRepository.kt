@@ -10,12 +10,10 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaymentsApi) {
+class OneOffPaymentsRepository @Inject constructor(private val oneOffPaymentsApi: OneOffPaymentsApi) {
     companion object {
         private const val TAG = "OneOffPaymentsRepository"
     }
-
-    private val oneOffPaymentsApi : OneOffPaymentsApi = oneOffPaymentsApi
 
     fun oneOffPayments(amount: Double, investorProductId: Int): Observable<ApiResource<OneOffPaymentsResponse>> {
 

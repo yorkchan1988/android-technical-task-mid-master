@@ -12,13 +12,11 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(loginApi: LoginApi) {
+class LoginRepository @Inject constructor(private val loginApi: LoginApi) {
 
     companion object {
         private const val TAG = "LoginRepository"
     }
-
-    private val loginApi : LoginApi = loginApi
 
     fun getLoginApiRequest(email: String, password: String, idfa: String = ""): LoginRequest {
         return LoginRequest(email, password, idfa)

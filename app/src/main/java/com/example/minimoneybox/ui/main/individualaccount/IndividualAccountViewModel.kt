@@ -12,7 +12,9 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.lang.Exception
 import javax.inject.Inject
 
-class IndividualAccountViewModel @Inject constructor(oneOffPaymentsRepository: OneOffPaymentsRepository): ViewModel() {
+class IndividualAccountViewModel @Inject constructor(// API
+    private val oneOffPaymentsRepository: OneOffPaymentsRepository
+): ViewModel() {
 
     // Custom variable
     var investorProduct: InvestorProduct? = null
@@ -22,9 +24,6 @@ class IndividualAccountViewModel @Inject constructor(oneOffPaymentsRepository: O
         }
 
     var investorProductLiveData: MutableLiveData<InvestorProduct> = MutableLiveData()
-
-    // API
-    private val oneOffPaymentsRepository: OneOffPaymentsRepository = oneOffPaymentsRepository
 
     // LiveData
     var apiStatus: MutableLiveData<ApiResource<OneOffPaymentsResponse>> = MutableLiveData()

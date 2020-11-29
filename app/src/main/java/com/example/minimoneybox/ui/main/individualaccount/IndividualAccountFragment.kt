@@ -46,13 +46,13 @@ class IndividualAccountFragment: DaggerFragment() {
 
         // investorProduct from UserAccountsFragment
         val investorProduct : InvestorProduct? = arguments?.getParcelable(Constants.INVESTOR_PRODUCT)
-        Log.d(TAG, "onCreateView: "+investorProduct?.planValue)
+
         // create viewModel and assign custom params
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(IndividualAccountViewModel::class.java)
         viewModel.investorProduct = investorProduct
 
         // assign binding
-        var binding : FragmentIndividualaccountBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_individualaccount, container, false)
+        val binding : FragmentIndividualaccountBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_individualaccount, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
