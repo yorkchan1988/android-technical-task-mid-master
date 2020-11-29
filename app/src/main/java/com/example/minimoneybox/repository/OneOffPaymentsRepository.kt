@@ -9,7 +9,6 @@ import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.network.api.OneOffPaymentsApi
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -31,10 +30,10 @@ class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaym
 
                 oneOffPaymentsApi.oneOffPayments(OneOffPaymentsRequest(amount, investorProductId))
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { data ->
                             emitter.onNext(ApiResource.Success(data))
+                            emitter.onComplete()
                         },
                         { error ->
                             if (error is HttpException) {
@@ -45,11 +44,13 @@ class OneOffPaymentsRepository @Inject constructor(oneOffPaymentsApi: OneOffPaym
                             else {
                                 emitter.onError(error)
                             }
+                            emitter.onComplete()
                         }
                     )
             }
             catch (error: Exception) {
                 emitter.onError(error)
+                emitter.onComplete()
             }
         }
     }

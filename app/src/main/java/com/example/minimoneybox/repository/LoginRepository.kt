@@ -11,7 +11,6 @@ import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.network.api.LoginApi
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -39,11 +38,10 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
                 val requestParam = getLoginApiRequest(email, password, idfa)
                 loginApi.login(requestParam)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { data ->
                             val token : String? = data.session?.token
-                            if (token != null) {
+                            if (token != null && token.isNotEmpty()) {
                                 // save bearer token to Session Manager
                                 SessionManager.login(token)
                                 // api returns success, return success response
@@ -52,6 +50,7 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
                             else {
                                 emitter.onError(UnexpectedException("Empty session Token"))
                             }
+                            emitter.onComplete()
                         },
                         { error ->
 
@@ -63,11 +62,13 @@ class LoginRepository @Inject constructor(loginApi: LoginApi) {
                             else {
                                 emitter.onError(error)
                             }
+                            emitter.onComplete()
                         }
                     )
             }
             catch (error: Exception) {
                 emitter.onError(error)
+                emitter.onComplete()
             }
         }
     }

@@ -28,12 +28,12 @@ class SessionManager {
         }
 
         fun login(token: String) {
-            authStatus.value = AuthStatus.AUTHENTICATED
+            authStatus.postValue(AuthStatus.AUTHENTICATED)
             this.token = token
         }
 
         fun logout() {
-            authStatus.value = AuthStatus.NOT_AUTHENTICATED
+            authStatus.postValue(AuthStatus.NOT_AUTHENTICATED)
             this.token = null
         }
     }

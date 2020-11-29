@@ -1,3 +1,5 @@
 package com.example.minimoneybox.exception
 
-class UnexpectedException(message: String): Exception(message)
+import java.lang.RuntimeException
+
+class UnexpectedException(message: String): RuntimeException(message)

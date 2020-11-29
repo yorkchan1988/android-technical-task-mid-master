@@ -6,7 +6,6 @@ import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.network.api.InvestorProductsApi
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -28,10 +27,10 @@ class InvestorProductsRepository @Inject constructor(investorProductsApi: Invest
 
                 investorProductsApi.getInvestorProduct()
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { data ->
                             emitter.onNext(ApiResource.Success(data))
+                            emitter.onComplete()
                         },
                         { error ->
 
@@ -43,11 +42,13 @@ class InvestorProductsRepository @Inject constructor(investorProductsApi: Invest
                             else {
                                 emitter.onError(error)
                             }
+                            emitter.onComplete()
                         }
                     )
             }
             catch (error: Exception) {
                 emitter.onError(error)
+                emitter.onComplete()
             }
         }
     }

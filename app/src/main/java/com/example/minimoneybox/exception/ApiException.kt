@@ -1,3 +1,3 @@
 package com.example.minimoneybox.exception
 
-class ApiException(message: String): Exception(message)
+class ApiException(message: String): RuntimeException(message)
