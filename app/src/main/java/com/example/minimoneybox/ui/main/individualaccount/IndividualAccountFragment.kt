@@ -1,11 +1,10 @@
 package com.example.minimoneybox.ui.main.individualaccount
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -19,7 +18,6 @@ import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class IndividualAccountFragment: DaggerFragment() {
@@ -73,7 +71,9 @@ class IndividualAccountFragment: DaggerFragment() {
             when(it.status){
                 ApiResource.ApiStatus.SUCCESS -> {
                     llprogressBar.visibility = View.GONE
-                    backToUserAccounts()
+                    SimpleAlertDialog.showAlert(activity, "Success", "Moneybox is added successfully!") { dialog: DialogInterface?, which: Int ->
+                        backToUserAccounts()
+                    }
                 }
                 ApiResource.ApiStatus.LOADING -> {
                     llprogressBar.visibility = View.VISIBLE
