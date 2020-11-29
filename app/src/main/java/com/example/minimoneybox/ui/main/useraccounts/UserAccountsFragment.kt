@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.FragmentUseraccountsBinding
+import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.ui.main.MainActivity
@@ -20,6 +22,7 @@ import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_useraccounts.*
 import javax.inject.Inject
 
 
@@ -30,6 +33,7 @@ class UserAccountsFragment: DaggerFragment() {
 
     lateinit var viewModel: UserAccountsViewModel
     lateinit var recyclerView: RecyclerView
+    lateinit var llprogressBar: View
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
@@ -62,6 +66,8 @@ class UserAccountsFragment: DaggerFragment() {
         recyclerView = binding.rvUserAccounts
         initRecyclerView()
 
+        llprogressBar = binding.llProgressBar
+
         return binding.root
     }
 
@@ -75,14 +81,30 @@ class UserAccountsFragment: DaggerFragment() {
 
     private fun subscribeObservers() {
         viewModel.apiStatus.observe(viewLifecycleOwner, Observer {
-            if (it.status == ApiResource.ApiStatus.LOADING) {
-
+            when (it.status) {
+                ApiResource.ApiStatus.LOADING -> {
+                    llprogressBar.visibility = View.VISIBLE
+                }
+                ApiResource.ApiStatus.SUCCESS -> {
+                    llprogressBar.visibility = View.GONE
+                }
+                ApiResource.ApiStatus.ERROR -> {
+                    llProgressBar.visibility = View.GONE
+                }
             }
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {exception ->
-            exception.message?.let { message ->
-                SimpleAlertDialog.showAlert(activity,"Error", message)
+            if (exception is ApiException) {
+                val apiException = exception as ApiException
+                val name = apiException.name
+                val message = apiException.message
+                SimpleAlertDialog.showAlert(activity,name, message)
+            }
+            else {
+                exception.message?.let { message ->
+                    SimpleAlertDialog.showAlert(activity,"Error", message)
+                }
             }
         })
 

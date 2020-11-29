@@ -4,8 +4,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -44,6 +46,7 @@ class LoginActivity : DaggerAppCompatActivity() {
     lateinit var til_name: TextInputLayout
     lateinit var et_name: EditText
     lateinit var animation: LottieAnimationView
+    lateinit var llprogressBar: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +71,7 @@ class LoginActivity : DaggerAppCompatActivity() {
         et_name = findViewById(R.id.et_name)
         et_name.setText("York")
         animation = findViewById(R.id.animation)
+        llprogressBar = findViewById(R.id.llProgressBar)
 
         btn_sign_in.setOnClickListener {
             animation.playAnimation()
@@ -87,11 +91,15 @@ class LoginActivity : DaggerAppCompatActivity() {
         // fail with message then display alert
         viewModel.apiStatus.observe(this, Observer {
             when(it.status) {
-                ApiResource.ApiStatus.LOADING -> {}
+                ApiResource.ApiStatus.LOADING -> {
+                    llprogressBar.visibility = View.VISIBLE
+                }
                 ApiResource.ApiStatus.SUCCESS -> {
+//                    llprogressBar.visibility = View.GONE
                     onLoginSuccess()
                 }
                 ApiResource.ApiStatus.ERROR -> {
+//                    llprogressBar.visibility = View.GONE
                     showAlert("Error", it.error?.message ?: "")
                 }
             }

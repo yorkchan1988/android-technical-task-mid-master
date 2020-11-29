@@ -33,16 +33,16 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
         // update livedata of error messages of edit text
         loginRepository.login(email, password).subscribeBy(
             onNext = {
+                apiStatus.postValue(it)
                 when (it.status) {
                     ApiResource.ApiStatus.SUCCESS -> {
                         // if success
                         // return apiStatus directly
-                        apiStatus.postValue(it)
+
                     }
                     ApiResource.ApiStatus.ERROR -> {
                         // if error
                         // return apiStatus
-                        apiStatus.postValue(it)
                         it.error?.let {errorRes ->
                             errorRes.validationErrors?.let {list ->
                                 // check if validationErrors.size == 0
