@@ -43,10 +43,9 @@ class UserAccountsViewModel
         // update livedata of error messages of edit text
         investorProductsRepository.getInvestorProducts().subscribeBy(
             onNext = {
+                apiStatus.postValue(it)
                 when (it.status) {
                     ApiResource.ApiStatus.SUCCESS -> {
-                        apiStatus.postValue(it)
-
                         it.data?.let {
                             totalPlanValue.postValue(it.totalPlanValue?.toInt())
                             products.postValue((it.products))
@@ -63,6 +62,7 @@ class UserAccountsViewModel
                 }
             },
             onError = {
+                apiStatus.postValue(ApiResource.Error(null, null))
                 error.postValue(it as Exception)
             }
         )
