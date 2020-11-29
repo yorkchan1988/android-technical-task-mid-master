@@ -1,12 +1,9 @@
 package com.example.minimoneybox.ui.login
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
@@ -131,7 +128,7 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     private fun onLoginSuccess() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(USERNAME, et_name.text.toString())
+        intent.putExtra(USERNAME, et_name.text.toString().trim())
         startActivity(intent)
         finish()
     }
