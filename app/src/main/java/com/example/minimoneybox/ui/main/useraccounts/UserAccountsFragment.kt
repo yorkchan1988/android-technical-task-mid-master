@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,13 +16,11 @@ import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.FragmentUseraccountsBinding
 import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.InvestorProduct
-import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.ui.main.MainActivity
 import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_useraccounts.*
 import javax.inject.Inject
 
 
@@ -32,7 +30,9 @@ class UserAccountsFragment: DaggerFragment() {
     }
 
     lateinit var viewModel: UserAccountsViewModel
+
     lateinit var recyclerView: RecyclerView
+    lateinit var tvGreeting: TextView
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
@@ -65,6 +65,8 @@ class UserAccountsFragment: DaggerFragment() {
         recyclerView = binding.rvUserAccounts
         initRecyclerView()
 
+        tvGreeting = binding.tvGreeting
+
         return binding.root
     }
 
@@ -77,6 +79,15 @@ class UserAccountsFragment: DaggerFragment() {
     }
 
     private fun subscribeObservers() {
+
+        viewModel.usernameText.observe(viewLifecycleOwner, Observer { username ->
+            if (username == "") {
+                tvGreeting.visibility = View.GONE
+            }
+            else {
+                tvGreeting.visibility = View.VISIBLE
+            }
+        })
 
         viewModel.error.observe(viewLifecycleOwner, Observer {exception ->
             if (exception is ApiException) {
