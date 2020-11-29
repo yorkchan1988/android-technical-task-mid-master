@@ -4,10 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
+import com.example.minimoneybox.databinding.ActivityLoginBinding
+import com.example.minimoneybox.databinding.ActivityMainBinding
 import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.ui.main.MainActivity
@@ -33,52 +36,49 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
-
-    lateinit var btn_sign_in: Button
-    lateinit var til_email: TextInputLayout
-    lateinit var et_email: EditText
-    lateinit var til_password: TextInputLayout
-    lateinit var et_password: EditText
-    lateinit var til_name: TextInputLayout
-    lateinit var et_name: EditText
+adsf
+    lateinit var btnSignIn: Button
+    lateinit var tilEmail: TextInputLayout
+    lateinit var etEmail: EditText
+    lateinit var tilPassword: TextInputLayout
+    lateinit var etPassword: EditText
+    lateinit var tilName: TextInputLayout
+    lateinit var etName: EditText
     lateinit var animation: LottieAnimationView
-    lateinit var llprogressBar: LinearLayout
-    lateinit var tv_email_error: TextView
-    lateinit var tv_password_error: TextView
+    lateinit var llprogressBar: View
+    lateinit var tvEmailError: TextView
+    lateinit var tvPasswordError: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this@LoginActivity, R.layout.activity_login)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory).get(LoginViewModel::class.java)
 
-        setupViews()
+        setupViews(binding)
         subscribeObservers()
     }
 
-    private fun setupViews() {
-        btn_sign_in = findViewById(R.id.btn_sign_in)
-        til_email = findViewById(R.id.til_email)
-        et_email = findViewById(R.id.et_email)
-        et_email.setText(LOGIN_EMAIL)
-        til_password = findViewById(R.id.til_password)
-        et_password = findViewById(R.id.et_password)
-        et_password.setText(LOGIN_PASSWORD)
-        til_name = findViewById(R.id.til_name)
-        et_name = findViewById(R.id.et_name)
-        et_name.setText("York")
-        animation = findViewById(R.id.animation)
-        llprogressBar = findViewById(R.id.ll_progress_bar)
-        tv_email_error = findViewById(R.id.tv_email_error)
-        tv_password_error = findViewById(R.id.tv_password_error)
+    private fun setupViews(binding: ActivityLoginBinding) {
+        btnSignIn = binding.btnSignIn
+        tilEmail = binding.tilEmail
+        etEmail = binding.etEmail
+        tilPassword = binding.tilPassword
+        etPassword = binding.etPassword
+        tilName = binding.tilName
+        etName = binding.etName
+        animation = binding.animation
+        llprogressBar = binding.llProgressBar
+        tvEmailError = binding.tvEmailError
+        tvPasswordError = binding.tvPasswordError
 
-        btn_sign_in.setOnClickListener {
+        btnSignIn.setOnClickListener {
             animation.playAnimation()
 
             // login
-            val email = et_email.text.toString()
-            val password = et_password.text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
 
             viewModel.login(email, password)
         }
@@ -118,17 +118,17 @@ class LoginActivity : DaggerAppCompatActivity() {
         })
 
         viewModel.emailErrorText.observe(this, Observer {
-            tv_email_error.setText(it)
+            tvEmailError.setText(it)
         })
 
         viewModel.passwordErrorText.observe(this, Observer {
-            tv_password_error.setText(it)
+            tvPasswordError.setText(it)
         })
     }
 
     private fun onLoginSuccess() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(USERNAME, et_name.text.toString().trim())
+        intent.putExtra(USERNAME, etName.text.toString().trim())
         startActivity(intent)
         finish()
     }
