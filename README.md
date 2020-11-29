@@ -8,6 +8,27 @@ The project currently contains a LoginActivity.kt with 3 EditTexts, a Button and
 
 We want to give some useful functionality to our users. To allow them to log into the app, view and edit their account using our sandbox API (See API usage).
 
+### Dagger Architecture Design
+
+![](images/dagger_architecture.png)
+
+### Project Architecture Design
+
+![](images/project_architecture.png)
+
+### Libraries
+
+##### Development
+- Dagger-Android
+- Retrofit
+- RxJava
+- RxKotlin
+
+##### Test
+- JUnit4
+- Mockito
+- MockWebServer
+
 ### Screen 1 - User accounts screen
 This screen should be shown after the user has successfully logged in and should show have the following functionality:
 - Display "Hello {name} **only** if they provided it on the previous screen"
