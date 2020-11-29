@@ -1,3 +1,26 @@
+# The Brief Summary of Application:
+
+### Dagger Architecture Design
+
+![](images/dagger_architecture.png)
+
+### Project Architecture Design
+
+![](images/project_architecture.png)
+
+### Libraries
+
+##### Development
+- Dagger-Android
+- Retrofit
+- RxJava
+- RxKotlin
+
+##### Test
+- JUnit4
+- Mockito
+- MockWebServer
+
 # The Brief:
 
 Create a mini version of the Moneybox app that will allow existing users to login, check their account and add money to their moneybox.

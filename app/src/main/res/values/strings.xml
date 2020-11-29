@@ -11,6 +11,17 @@
     <string name="password_error">Please enter a correct password</string>
     <string name="full_name_error">Please enter your full name</string>
     <string name="input_valid">Input is valid!</string>
+
+    <!-- Strings related to user accounts -->
+    <string name="title_user_accounts">User Accounts</string>
+    <string name="greeting_msg">Hello %s!</string>
+    <string name="text_total_plan_value">Total Plan Value: £%d</string>
+    <string name="text_plan_value">Plan Value: £%.0f</string>
+    <string name="text_money_box">Moneybox: £%.0f</string>
+
+    <!-- Strings related to individual account -->
+    <string name="button_add">Add £%.0f</string>
+
 <!--    Lottie files-->
     <string name="lottie_owl_coin_shower">owl_coin_shower.json</string>
 

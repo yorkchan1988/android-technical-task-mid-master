@@ -1,0 +1,5 @@
+{
+  "Name": "User session not found",
+  "Message": "Sorry but it looks like your session is not valid. Please close the app and log in again.",
+  "ValidationErrors": []
+}
