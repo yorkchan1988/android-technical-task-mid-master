@@ -1,12 +1,4 @@
-# The Brief:
-
-Create a mini version of the Moneybox app that will allow existing users to login, check their account and add money to their moneybox.
-
-The project currently contains a LoginActivity.kt with 3 EditTexts, a Button and a lovely animation of an owl that plays on the press of the button.  We want you to implement two additional screens.
-
-## The screens
-
-We want to give some useful functionality to our users. To allow them to log into the app, view and edit their account using our sandbox API (See API usage).
+# The Brief Summary of Application:
 
 ### Dagger Architecture Design
 
@@ -28,6 +20,16 @@ We want to give some useful functionality to our users. To allow them to log int
 - JUnit4
 - Mockito
 - MockWebServer
+
+# The Brief:
+
+Create a mini version of the Moneybox app that will allow existing users to login, check their account and add money to their moneybox.
+
+The project currently contains a LoginActivity.kt with 3 EditTexts, a Button and a lovely animation of an owl that plays on the press of the button.  We want you to implement two additional screens.
+
+## The screens
+
+We want to give some useful functionality to our users. To allow them to log into the app, view and edit their account using our sandbox API (See API usage).
 
 ### Screen 1 - User accounts screen
 This screen should be shown after the user has successfully logged in and should show have the following functionality:
