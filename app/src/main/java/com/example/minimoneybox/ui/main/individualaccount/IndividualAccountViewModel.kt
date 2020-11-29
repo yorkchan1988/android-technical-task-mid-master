@@ -37,10 +37,8 @@ class IndividualAccountViewModel @Inject constructor(oneOffPaymentsRepository: O
                 investorProduct.id
             ).subscribeBy(
                 onNext = {
+                    apiStatus.postValue(it)
                     when (it.status) {
-                        ApiResource.ApiStatus.SUCCESS -> {
-                            apiStatus.postValue(it)
-                        }
                         ApiResource.ApiStatus.ERROR -> {
                             it.error?.let {errorRes ->
                                 errorRes.message?.let {msg ->
