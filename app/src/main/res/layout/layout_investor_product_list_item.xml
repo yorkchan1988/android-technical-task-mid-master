@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_style_large"
             android:text="@{investorProduct.product.name}"/>
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_style_large"
             android:text="@{@string/text_plan_value(investorProduct.planValue)}"/>
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_style_large"
             android:text="@{@string/text_money_box(investorProduct.moneyboxValue)}"/>
 
     </LinearLayout>

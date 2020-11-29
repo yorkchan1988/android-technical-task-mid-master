@@ -16,6 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.investorProduct.product.name}"
+            android:textSize="@dimen/text_style_large"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -24,6 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/text_plan_value(viewModel.investorProduct.planValue)}"
+            android:textSize="@dimen/text_style_large"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toBottomOf="@id/tv_product_name"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -32,6 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/text_money_box(viewModel.investorProduct.moneyboxValue)}"
+            android:textSize="@dimen/text_style_large"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toBottomOf="@id/tv_plan_value"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -40,8 +52,10 @@
             style="@style/Widget.Button.Colored.Rounded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_moneybox"
+            android:layout_marginBottom="@dimen/margin_default"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{@string/button_add(viewModel.investorProduct.subscriptionAmount)}"
             android:onClick="@{() -> viewModel.oneOffPayments()}"
             />

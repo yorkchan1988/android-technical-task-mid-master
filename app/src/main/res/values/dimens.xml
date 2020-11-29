@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_style_medium">15sp</dimen>
+    <dimen name="text_style_large">22sp</dimen>
     <dimen name="line_height_button_primary">20sp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="layout_padding_8dp">8dp</dimen>
