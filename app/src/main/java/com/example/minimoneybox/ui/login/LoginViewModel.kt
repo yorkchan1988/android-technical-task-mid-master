@@ -9,6 +9,8 @@ import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.repository.LoginRepository
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_VALIDATION_ERROR_KEY_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_VALIDATION_ERROR_KEY_PASSWORD
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
@@ -28,10 +30,20 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
     // API
     private val loginRepository: LoginRepository = loginRepository
 
+    // Disposable
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.let {
+            this.compositeDisposable.dispose()
+        }
+    }
+
     fun login(email: String, password: String) {
         // if fail with validation errors
         // update livedata of error messages of edit text
-        loginRepository.login(email, password).subscribeBy(
+        val disposable = loginRepository.login(email, password).subscribeBy(
             onNext = {
                 apiStatus.postValue(it)
                 when (it.status) {
@@ -74,6 +86,8 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
                 passwordErrorText.postValue("")
             }
         )
+
+        compositeDisposable.add(disposable)
     }
 
     fun getValidationErrorMessage(errors: Set<ValidationError>, key: String): String {

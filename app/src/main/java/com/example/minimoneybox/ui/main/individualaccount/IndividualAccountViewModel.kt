@@ -8,6 +8,7 @@ import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.models.response.OneOffPaymentsResponse
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.repository.OneOffPaymentsRepository
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import java.lang.Exception
 import javax.inject.Inject
@@ -29,9 +30,19 @@ class IndividualAccountViewModel @Inject constructor(// API
     var apiStatus: MutableLiveData<ApiResource<OneOffPaymentsResponse>> = MutableLiveData()
     var error: MutableLiveData<Exception> = MutableLiveData()
 
+    // Disposable
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.let {
+            this.compositeDisposable.dispose()
+        }
+    }
+
     fun oneOffPayments() {
         investorProduct?.let { investorProduct ->
-            oneOffPaymentsRepository.oneOffPayments(
+            val disposable = oneOffPaymentsRepository.oneOffPayments(
                 investorProduct.subscriptionAmount,
                 investorProduct.id
             ).subscribeBy(
@@ -52,6 +63,10 @@ class IndividualAccountViewModel @Inject constructor(// API
                     error.postValue(it as Exception)
                 }
             )
+
+            compositeDisposable.add(disposable)
         }
+
+
     }
 }

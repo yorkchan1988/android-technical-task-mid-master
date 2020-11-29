@@ -7,6 +7,7 @@ import com.example.minimoneybox.models.AccountDetails
 import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.network.ApiResource
 import com.example.minimoneybox.repository.InvestorProductsRepository
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import java.lang.Exception
 import javax.inject.Inject
@@ -31,6 +32,9 @@ class UserAccountsViewModel
     // API
     private val investorProductsRepository: InvestorProductsRepository = investorProductsRepository
 
+    // Disposable
+    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+
     // Custom variable
     var username: String? = ""
         set(value) {
@@ -38,10 +42,17 @@ class UserAccountsViewModel
             usernameText.postValue(field)
         }
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.let {
+            this.compositeDisposable.dispose()
+        }
+    }
+
     fun getInvestorProducts() {
         // if fail with validation errors
         // update livedata of error messages of edit text
-        investorProductsRepository.getInvestorProducts().subscribeBy(
+        val disposable = investorProductsRepository.getInvestorProducts().subscribeBy(
             onNext = {
                 apiStatus.postValue(it)
                 when (it.status) {
@@ -66,5 +77,7 @@ class UserAccountsViewModel
                 error.postValue(it as Exception)
             }
         )
+
+        compositeDisposable.add(disposable)
     }
 }
