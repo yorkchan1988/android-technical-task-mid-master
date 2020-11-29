@@ -5,12 +5,12 @@ import androidx.databinding.DataBindingUtil
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.ActivityMainBinding
 import com.example.minimoneybox.models.InvestorProduct
-import com.example.minimoneybox.ui.BaseActivity
 import com.example.minimoneybox.ui.main.individualaccount.IndividualAccountFragment
 import com.example.minimoneybox.ui.main.useraccounts.UserAccountsFragment
 import com.example.minimoneybox.util.Constants.Companion.INVESTOR_PRODUCT
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity: BaseActivity() {
+class MainActivity: DaggerAppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
     }
