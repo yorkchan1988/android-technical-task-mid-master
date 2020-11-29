@@ -36,7 +36,6 @@ class LoginActivity : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
-adsf
     lateinit var btnSignIn: Button
     lateinit var tilEmail: TextInputLayout
     lateinit var etEmail: EditText
