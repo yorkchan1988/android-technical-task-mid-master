@@ -32,7 +32,7 @@ class Constants {
         // Key Store
         const val SECRET_KEY_ALIAS: String = "It is a secret key alias."
         const val ANDROID_KEY_STORE: String = "AndroidKeyStore"
-        const val AES_MODE: String = "AES/GCM/NoPadding"
-        const val FIXED_IV: String = "FIXED_IV"
+        const val RSA_ALGO: String = "RSA"
+        const val SECRET_FILE_NAME: String = "SECRET_MINI_MONEYBOX"
     }
 }

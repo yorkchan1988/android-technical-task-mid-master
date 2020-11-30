@@ -98,9 +98,8 @@ class UserAccountsFragment: DaggerFragment() {
 
         viewModel.error.observe(viewLifecycleOwner, Observer {exception ->
             if (exception is ApiException) {
-                val apiException = exception as ApiException
-                val name = apiException.name
-                val message = apiException.message
+                val name = exception.name
+                val message = exception.message
                 SimpleAlertDialog.showAlert(activity,name, message)
             }
             else {

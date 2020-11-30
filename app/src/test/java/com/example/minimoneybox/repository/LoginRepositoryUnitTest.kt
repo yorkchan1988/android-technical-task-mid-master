@@ -39,13 +39,16 @@ class LoginRepositoryUnitTest {
     @Mock
     lateinit var loginApi: LoginApi
 
+    @Mock
+    lateinit var sessionManager: SessionManager
+
     lateinit var loginRepository: LoginRepository
 
     @Before
     fun setUp() {
         // create mock objects
         MockitoAnnotations.initMocks(this)
-        loginRepository = LoginRepository(loginApi)
+        loginRepository = LoginRepository(loginApi, sessionManager)
     }
 
     @Test
@@ -78,7 +81,7 @@ class LoginRepositoryUnitTest {
         // THEN
         assertEquals(ApiResource.ApiStatus.SUCCESS, result.status)
         assertEquals(responseData, result.data)
-        assertEquals(SessionManager.getBearerToken(), token)
+        assertEquals(sessionManager.getBearerToken(), token)
     }
 
     @Test

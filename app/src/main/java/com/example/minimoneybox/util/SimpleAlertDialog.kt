@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 
 object SimpleAlertDialog {
     fun showAlert(
-        activity: Activity?, title: String, message: String, listener: (DialogInterface?, Int) -> Unit = { dialog: DialogInterface?, which: Int ->
+        activity: Activity?, title: String, message: String, listener: (DialogInterface?, Int) -> Unit = { _: DialogInterface?, _: Int ->
     }) {
         activity?.let {
             val builder = AlertDialog.Builder(it)

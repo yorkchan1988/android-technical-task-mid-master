@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(private val loginApi: LoginApi) {
+class LoginRepository @Inject constructor(private val loginApi: LoginApi, private val sessionManager: SessionManager) {
 
     companion object {
         private const val TAG = "LoginRepository"
@@ -38,7 +38,7 @@ class LoginRepository @Inject constructor(private val loginApi: LoginApi) {
                             val token : String? = data.session?.token
                             if (token != null && token.isNotEmpty()) {
                                 // save bearer token to Session Manager
-                                SessionManager.login(token)
+                                sessionManager.login(token)
                                 // api returns success, return success response
                                 emitter.onNext(ApiResource.Success(data))
                             }

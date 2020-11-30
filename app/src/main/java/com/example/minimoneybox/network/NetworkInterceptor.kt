@@ -1,5 +1,7 @@
 package com.example.minimoneybox.network
 
+import android.app.Application
+import android.content.Context
 import com.example.minimoneybox.SessionManager
 import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.Constants.Companion.HEADER_KEY_API_VERSION
@@ -11,8 +13,9 @@ import com.example.minimoneybox.util.Constants.Companion.HEADER_VALUE_APP_ID
 import com.example.minimoneybox.util.Constants.Companion.HEADER_VALUE_APP_VERSION
 import com.example.minimoneybox.util.Constants.Companion.HEADER_VALUE_CONTENT_TYPE
 import okhttp3.*
+import javax.inject.Inject
 
-class NetworkInterceptor: Interceptor {
+class NetworkInterceptor @Inject constructor(private val sessionManager: SessionManager): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
 
@@ -26,7 +29,7 @@ class NetworkInterceptor: Interceptor {
         // check if bearer token is null
         // if yes, do nothing
         // if no, add Authorization header
-        val bearerToken = SessionManager.getBearerToken()
+        val bearerToken = sessionManager.getBearerToken()
         bearerToken?.let {
             builder.addHeader("Authorization", "Bearer "+it)
         }

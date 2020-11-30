@@ -58,7 +58,7 @@ class UserAccountsViewModel
                 when (it.status) {
                     ApiResource.ApiStatus.SUCCESS -> {
                         it.data?.let {
-                            totalPlanValue.postValue(it.totalPlanValue?.toInt())
+                            totalPlanValue.postValue(it.totalPlanValue.toInt())
                             products.postValue((it.products))
                         }
                     }

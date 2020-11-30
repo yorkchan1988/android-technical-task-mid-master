@@ -13,11 +13,13 @@ import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
 import com.example.minimoneybox.util.FileUtils
 import io.reactivex.observers.TestObserver
 import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -30,6 +32,9 @@ class LoginApiUnitTest {
     val testObserver: TestObserver<LoginSession> = TestObserver()
 
     lateinit var loginApi: LoginApi
+
+    @Mock
+    lateinit var okHttpClient: OkHttpClient
 
     private fun createMockResponse(code: Int, jsonFileName: String): MockResponse {
         val mockResponse = MockResponse()
@@ -45,7 +50,6 @@ class LoginApiUnitTest {
         mockWebServer.start()
 
         val baseUrl: HttpUrl = mockWebServer.url("")
-        val okHttpClient = AppModule.provideOkHttpClientInstance()
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)

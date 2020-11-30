@@ -8,11 +8,14 @@ import com.example.minimoneybox.network.api.InvestorProductsApi
 import com.example.minimoneybox.util.FileUtils
 import io.reactivex.observers.TestObserver
 import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -26,6 +29,9 @@ class InvestorProductsApiUnitTest {
 
     private lateinit var investorProductsApi: InvestorProductsApi
 
+    @Mock
+    lateinit var okHttpClient: OkHttpClient
+
     private fun createMockResponse(code: Int, jsonFileName: String): MockResponse {
         val mockResponse = MockResponse()
         mockResponse.setResponseCode(code)
@@ -35,12 +41,12 @@ class InvestorProductsApiUnitTest {
 
     @Before
     fun setUp() {
+        MockitoAnnotations.initMocks(this)
         // start mock server
         mockWebServer = MockWebServer()
         mockWebServer.start()
 
         val baseUrl: HttpUrl = mockWebServer.url("")
-        val okHttpClient = AppModule.provideOkHttpClientInstance()
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
