@@ -2,17 +2,17 @@ package com.example.minimoneybox.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.models.response.ValidationError
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
+import com.example.minimoneybox.network.ApiResult.*
 import com.example.minimoneybox.repository.LoginRepository
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_VALIDATION_ERROR_KEY_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_VALIDATION_ERROR_KEY_PASSWORD
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+import com.example.minimoneybox.errorhandling.ErrorEntity.*
 
 class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : ViewModel() {
 
@@ -21,7 +21,7 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
     }
 
     // LiveData
-    var apiStatus : MutableLiveData<ApiResource<LoginSession>> = MutableLiveData()
+    var apiResult : MutableLiveData<ApiResult<LoginSession>> = MutableLiveData()
     var error: MutableLiveData<Exception> = MutableLiveData()
 
     var emailErrorText: MutableLiveData<String> = MutableLiveData("")
@@ -43,49 +43,60 @@ class LoginViewModel @Inject constructor(loginRepository: LoginRepository) : Vie
     fun login(email: String, password: String) {
         // if fail with validation errors
         // update livedata of error messages of edit text
-        val disposable = loginRepository.login(email, password).subscribeBy(
-            onNext = {
-                apiStatus.postValue(it)
-                when (it.status) {
-                    ApiResource.ApiStatus.ERROR -> {
-                        // if error
-                        // return apiStatus
-                        it.error?.let {errorRes ->
-                            errorRes.validationErrors?.let {list ->
-                                // check if validationErrors.size == 0
-                                if (list.size == 0) {
-                                    // if yes, return error with ApiException
-                                    errorRes.message?.let {msg ->
-                                        val name = errorRes.errorName ?: "Error"
-                                        error.postValue(ApiException(name, msg))
+        val disposable = loginRepository.login(email, password)
+            .subscribeBy(
+                onNext = {
+                    when(it) {
+                        is Loading -> {
+                            apiResult.postValue(it)
+                        }
+                        is Success -> {
+                            apiResult.postValue(it)
+                        }
+                        is Error -> {
+                            // if error
+                            // return apiStatus
+                            when (it.error) {
+                                is ApiError -> {
+                                    val errorName = it.error.errorResponse.errorName
+                                    val message = it.error.errorResponse.message
+                                    val validationError = it.error.errorResponse.validationErrors
+                                    validationError?.let {list ->
+                                        // check if validationErrors.size == 0
+                                        if (list.size == 0) {
+                                            // if yes, return error with ApiException
+                                            message?.let {msg ->
+                                                val name = errorName ?: "Error"
+                                                apiResult.postValue(Error(UnexpectedError(it.message ?: "")))
+//                                                error.postValue(ErrorhandlingApiException(name, msg))
+                                            }
+
+                                            // reset error text
+                                            emailErrorText.postValue("")
+                                            passwordErrorText.postValue("")
+                                        }
+                                        // if no, update errorErrorText and passwordErrorText LiveData
+                                        else {
+                                            val errors = list.toSet()
+                                            val emailErrorMsg = getValidationErrorMessage(errors, LOGIN_VALIDATION_ERROR_KEY_EMAIL)
+                                            val passwordErrorMsg = getValidationErrorMessage(errors, LOGIN_VALIDATION_ERROR_KEY_PASSWORD)
+
+                                            emailErrorText.postValue(emailErrorMsg)
+                                            passwordErrorText.postValue(passwordErrorMsg)
+                                        }
                                     }
-
-                                    // reset error text
-                                    emailErrorText.postValue("")
-                                    passwordErrorText.postValue("")
-                                }
-                                // if no, update errorErrorText and passwordErrorText LiveData
-                                else {
-                                    val errors = list.toSet()
-                                    val emailErrorMsg = getValidationErrorMessage(errors, LOGIN_VALIDATION_ERROR_KEY_EMAIL)
-                                    val passwordErrorMsg = getValidationErrorMessage(errors, LOGIN_VALIDATION_ERROR_KEY_PASSWORD)
-
-                                    emailErrorText.postValue(emailErrorMsg)
-                                    passwordErrorText.postValue(passwordErrorMsg)
                                 }
                             }
                         }
                     }
+                },
+                onError = {
+                    apiResult.postValue(Error(UnexpectedError(it.message ?: "")))
+                    // reset error text
+                    emailErrorText.postValue("")
+                    passwordErrorText.postValue("")
                 }
-            },
-            onError = {
-                apiStatus.postValue(ApiResource.Error(null, null))
-                error.postValue(it as Exception)
-                // reset error text
-                emailErrorText.postValue("")
-                passwordErrorText.postValue("")
-            }
-        )
+            )
 
         compositeDisposable.add(disposable)
     }

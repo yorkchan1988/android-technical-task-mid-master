@@ -2,10 +2,9 @@ package com.example.minimoneybox.ui.main.useraccounts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.AccountDetails
 import com.example.minimoneybox.models.InvestorProduct
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.repository.InvestorProductsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -22,18 +21,18 @@ class UserAccountsViewModel
     }
 
     // LiveData
-    var apiStatus: MutableLiveData<ApiResource<AccountDetails>> = MutableLiveData()
-    var error: MutableLiveData<Exception> = MutableLiveData()
+    val apiStatus: MutableLiveData<ApiResult<AccountDetails>> = MutableLiveData()
+    val error: MutableLiveData<Exception> = MutableLiveData()
 
-    var usernameText: MutableLiveData<String> = MutableLiveData("")
-    var totalPlanValue: MutableLiveData<Int> = MutableLiveData(0)
-    var products: MutableLiveData<List<InvestorProduct>> = MutableLiveData(emptyList())
+    val usernameText: MutableLiveData<String> = MutableLiveData("")
+    val totalPlanValue: MutableLiveData<Int> = MutableLiveData(0)
+    val products: MutableLiveData<List<InvestorProduct>> = MutableLiveData(emptyList())
 
     // API
     private val investorProductsRepository: InvestorProductsRepository = investorProductsRepository
 
     // Disposable
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     // Custom variable
     var username: String? = ""
@@ -56,13 +55,13 @@ class UserAccountsViewModel
             onNext = {
                 apiStatus.postValue(it)
                 when (it.status) {
-                    ApiResource.ApiStatus.SUCCESS -> {
+                    ApiResult.ApiStatus.SUCCESS -> {
                         it.data?.let {
                             totalPlanValue.postValue(it.totalPlanValue.toInt())
                             products.postValue((it.products))
                         }
                     }
-                    ApiResource.ApiStatus.ERROR -> {
+                    ApiResult.ApiStatus.ERROR -> {
                         it.error?.let {errorRes ->
                             errorRes.message?.let {msg ->
                                 val name = errorRes.errorName ?: "Error"
@@ -73,7 +72,7 @@ class UserAccountsViewModel
                 }
             },
             onError = {
-                apiStatus.postValue(ApiResource.Error(null, null))
+                apiStatus.postValue(ApiResult.Error(null, null))
                 error.postValue(it as Exception)
             }
         )

@@ -2,12 +2,11 @@ package com.example.minimoneybox.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.minimoneybox.SessionManager
-import com.example.minimoneybox.exception.UnexpectedException
 import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.models.Session
 import com.example.minimoneybox.models.request.LoginRequest
 import com.example.minimoneybox.models.response.ErrorResponse
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.network.api.LoginApi
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
 import com.example.minimoneybox.util.Constants.Companion.LOGIN_IDFA
@@ -26,7 +25,6 @@ import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.Exception
-import java.lang.RuntimeException
 import java.net.HttpURLConnection
 import kotlin.test.assertFailsWith
 
@@ -79,7 +77,7 @@ class LoginRepositoryUnitTest {
              .blockingLast()
 
         // THEN
-        assertEquals(ApiResource.ApiStatus.SUCCESS, result.status)
+        assertEquals(ApiResult.ApiStatus.SUCCESS, result.status)
         assertEquals(responseData, result.data)
         assertEquals(sessionManager.getBearerToken(), token)
     }
@@ -116,7 +114,7 @@ class LoginRepositoryUnitTest {
             .blockingLast()
 
         // THEN
-        assertEquals(ApiResource.ApiStatus.ERROR, result.status)
+        assertEquals(ApiResult.ApiStatus.ERROR, result.status)
 
         val errorResponse = ErrorResponse.fromHttpException(httpException)
         assertEquals(errorResponse, result.data)
@@ -137,7 +135,7 @@ class LoginRepositoryUnitTest {
             .blockingLast()
 
         // THEN
-        assertEquals(ApiResource.ApiStatus.ERROR, result.status)
+        assertEquals(ApiResult.ApiStatus.ERROR, result.status)
 
         val errorResponse = ErrorResponse.fromHttpException(httpException)
         assertEquals(errorResponse, result.data)

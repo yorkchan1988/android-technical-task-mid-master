@@ -8,19 +8,18 @@ import retrofit2.HttpException
 data class ErrorResponse(
     @SerializedName("Name")
     @Expose
-    var errorName: String?,
+    val errorName: String?,
     @SerializedName("Message")
     @Expose
-    var message: String?,
+    val message: String?,
     @SerializedName("ValidationErrors")
     @Expose
-    var validationErrors: List<ValidationError>?
+    val validationErrors: List<ValidationError>?
 ) {
     companion object {
-        fun fromHttpException(error: HttpException): ErrorResponse? {
+        fun fromHttpException(error: HttpException): ErrorResponse {
             val errorResponseString = error.response().errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorResponseString, ErrorResponse::class.java)
-            return errorResponse
+            return Gson().fromJson(errorResponseString, ErrorResponse::class.java)
         }
     }
 }
@@ -28,8 +27,8 @@ data class ErrorResponse(
 data class ValidationError(
     @SerializedName("Name")
     @Expose
-    var errorName: String?,
+    val errorName: String?,
     @SerializedName("Message")
     @Expose
-    var message: String?
+    val message: String?
 )

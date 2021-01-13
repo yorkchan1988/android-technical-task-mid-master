@@ -44,7 +44,7 @@ class InvestorProductsRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHol
     class InvestorProductViewHolder(binding : LayoutInvestorProductListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private var binding: LayoutInvestorProductListItemBinding = binding
+        private val binding: LayoutInvestorProductListItemBinding = binding
 
         fun bind(investorProduct: InvestorProduct) {
             binding.investorProduct = investorProduct

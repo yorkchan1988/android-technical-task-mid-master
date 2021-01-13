@@ -1,17 +1,11 @@
 package com.example.minimoneybox.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.minimoneybox.SessionManager
-import com.example.minimoneybox.models.LoginSession
-import com.example.minimoneybox.models.Session
-import com.example.minimoneybox.models.request.LoginRequest
 import com.example.minimoneybox.models.request.OneOffPaymentsRequest
 import com.example.minimoneybox.models.response.ErrorResponse
 import com.example.minimoneybox.models.response.OneOffPaymentsResponse
-import com.example.minimoneybox.network.ApiResource
-import com.example.minimoneybox.network.api.InvestorProductsApi
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.network.api.OneOffPaymentsApi
-import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.FileUtils
 import io.reactivex.Observable
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -58,7 +52,7 @@ class OneOffPaymentsRepositoryUnitTest {
             .blockingLast()
 
         // THEN
-        Assert.assertEquals(ApiResource.ApiStatus.SUCCESS, result.status)
+        Assert.assertEquals(ApiResult.ApiStatus.SUCCESS, result.status)
         Assert.assertEquals(responseData, result.data)
     }
 
@@ -78,7 +72,7 @@ class OneOffPaymentsRepositoryUnitTest {
             .blockingLast()
 
         // THEN
-        Assert.assertEquals(ApiResource.ApiStatus.ERROR, result.status)
+        Assert.assertEquals(ApiResult.ApiStatus.ERROR, result.status)
 
         val errorResponse = ErrorResponse.fromHttpException(httpException)
         Assert.assertEquals(errorResponse, result.data)
@@ -99,7 +93,7 @@ class OneOffPaymentsRepositoryUnitTest {
             .blockingLast()
 
         // THEN
-        Assert.assertEquals(ApiResource.ApiStatus.ERROR, result.status)
+        Assert.assertEquals(ApiResult.ApiStatus.ERROR, result.status)
 
         val errorResponse = ErrorResponse.fromHttpException(httpException)
         Assert.assertEquals(errorResponse, result.data)

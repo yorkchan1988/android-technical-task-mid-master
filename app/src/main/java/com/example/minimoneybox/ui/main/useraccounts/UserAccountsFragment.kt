@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.FragmentUseraccountsBinding
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.ui.main.MainActivity
 import com.example.minimoneybox.util.Constants

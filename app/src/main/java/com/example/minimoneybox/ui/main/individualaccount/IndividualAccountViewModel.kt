@@ -1,12 +1,10 @@
 package com.example.minimoneybox.ui.main.individualaccount
 
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.InvestorProduct
 import com.example.minimoneybox.models.response.OneOffPaymentsResponse
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.repository.OneOffPaymentsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -24,14 +22,14 @@ class IndividualAccountViewModel @Inject constructor(// API
             investorProductLiveData.value = value
         }
 
-    var investorProductLiveData: MutableLiveData<InvestorProduct> = MutableLiveData()
+    val investorProductLiveData: MutableLiveData<InvestorProduct> = MutableLiveData()
 
     // LiveData
-    var apiStatus: MutableLiveData<ApiResource<OneOffPaymentsResponse>> = MutableLiveData()
-    var error: MutableLiveData<Exception> = MutableLiveData()
+    val apiStatus: MutableLiveData<ApiResult<OneOffPaymentsResponse>> = MutableLiveData()
+    val error: MutableLiveData<Exception> = MutableLiveData()
 
     // Disposable
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCleared() {
         super.onCleared()
@@ -49,7 +47,7 @@ class IndividualAccountViewModel @Inject constructor(// API
                 onNext = {
                     apiStatus.postValue(it)
                     when (it.status) {
-                        ApiResource.ApiStatus.ERROR -> {
+                        ApiResult.ApiStatus.ERROR -> {
                             it.error?.let {errorRes ->
                                 errorRes.message?.let {msg ->
                                     val name = errorRes.errorName ?: "Error"

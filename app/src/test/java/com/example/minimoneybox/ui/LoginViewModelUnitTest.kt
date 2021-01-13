@@ -1,12 +1,11 @@
 package com.example.minimoneybox.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.LoginSession
 import com.example.minimoneybox.models.Session
 import com.example.minimoneybox.models.response.ErrorResponse
 import com.example.minimoneybox.models.response.ValidationError
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.repository.LoginRepository
 import com.example.minimoneybox.ui.login.LoginViewModel
 import com.example.minimoneybox.util.Constants
@@ -94,7 +93,7 @@ class LoginViewModelUnitTest {
         val password = LOGIN_PASSWORD
         val token = "gnOKw1sLpvLeot8IHesQydAyfWtBW5+z4SCCB46UyTY="
         val responseData = LoginSession(Session(token))
-        val apiResource = ApiResource.Success(responseData)
+        val apiResource = ApiResult.Success(responseData)
         Mockito.`when`(loginRepository.login(email, password))
             .thenReturn(Observable.just(apiResource))
         // WHEN
@@ -117,7 +116,7 @@ class LoginViewModelUnitTest {
         val httpException = HttpException(response)
         // create ApiResource
         val errorResponse = ErrorResponse.fromHttpException(httpException)
-        val apiResource = ApiResource.Error<LoginSession>(null, errorResponse)
+        val apiResource = ApiResult.Error<LoginSession>(null, errorResponse)
         // mock response
         Mockito.`when`(loginRepository.login(email, password))
             .thenReturn(Observable.just(apiResource))
@@ -144,7 +143,7 @@ class LoginViewModelUnitTest {
         val httpException = HttpException(response)
         // create ApiResource
         val errorResponse = ErrorResponse.fromHttpException(httpException)
-        val apiResource = ApiResource.Error<LoginSession>(null, errorResponse)
+        val apiResource = ApiResult.Error<LoginSession>(null, errorResponse)
         // mock response
         Mockito.`when`(loginRepository.login(email, password))
             .thenReturn(Observable.just(apiResource))

@@ -10,12 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.ActivityLoginBinding
-import com.example.minimoneybox.databinding.ActivityMainBinding
-import com.example.minimoneybox.exception.ApiException
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.ui.main.MainActivity
-import com.example.minimoneybox.util.Constants.Companion.LOGIN_EMAIL
-import com.example.minimoneybox.util.Constants.Companion.LOGIN_PASSWORD
 import com.example.minimoneybox.util.Constants.Companion.USERNAME
 import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
@@ -90,14 +86,14 @@ class LoginActivity : DaggerAppCompatActivity() {
         // fail with message then display alert
         viewModel.apiStatus.observe(this, Observer {
             when(it.status) {
-                ApiResource.ApiStatus.LOADING -> {
+                ApiResult.ApiStatus.LOADING -> {
                     llprogressBar.visibility = View.VISIBLE
                 }
-                ApiResource.ApiStatus.SUCCESS -> {
+                ApiResult.ApiStatus.SUCCESS -> {
                     llprogressBar.visibility = View.GONE
                     onLoginSuccess()
                 }
-                ApiResource.ApiStatus.ERROR -> {
+                ApiResult.ApiStatus.ERROR -> {
                     llprogressBar.visibility = View.GONE
                 }
             }

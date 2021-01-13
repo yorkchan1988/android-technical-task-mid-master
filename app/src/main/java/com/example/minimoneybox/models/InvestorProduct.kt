@@ -9,24 +9,24 @@ import kotlinx.android.parcel.Parcelize
 data class InvestorProduct(
     @SerializedName("Id")
     @Expose
-    var id: Int,
+    val id: Int,
     @SerializedName("PlanValue")
     @Expose
-    var planValue: Double,
+    val planValue: Double,
     @SerializedName("Moneybox")
     @Expose
-    var moneyboxValue: Double,
+    val moneyboxValue: Double,
     @SerializedName("SubscriptionAmount")
     @Expose
-    var subscriptionAmount: Double,
+    val subscriptionAmount: Double,
     @SerializedName("Product")
     @Expose
-    var product: ProductDetail
+    val product: ProductDetail
 ) : Parcelable
 
 @Parcelize
 data class ProductDetail(
     @SerializedName("FriendlyName")
     @Expose
-    var name: String
+    val name: String
 ) : Parcelable

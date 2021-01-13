@@ -11,9 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.minimoneybox.R
 import com.example.minimoneybox.databinding.FragmentIndividualaccountBinding
-import com.example.minimoneybox.exception.ApiException
 import com.example.minimoneybox.models.InvestorProduct
-import com.example.minimoneybox.network.ApiResource
+import com.example.minimoneybox.network.ApiResult
 import com.example.minimoneybox.util.Constants
 import com.example.minimoneybox.util.SimpleAlertDialog
 import com.example.minimoneybox.viewmodels.ViewModelProviderFactory
@@ -69,16 +68,16 @@ class IndividualAccountFragment: DaggerFragment() {
     private fun subscribeObservers() {
         viewModel.apiStatus.observe(viewLifecycleOwner, Observer {
             when(it.status){
-                ApiResource.ApiStatus.SUCCESS -> {
+                ApiResult.ApiStatus.SUCCESS -> {
                     llprogressBar.visibility = View.GONE
                     SimpleAlertDialog.showAlert(activity, "Success", "Moneybox is added successfully!") { dialog: DialogInterface?, which: Int ->
                         backToUserAccounts()
                     }
                 }
-                ApiResource.ApiStatus.LOADING -> {
+                ApiResult.ApiStatus.LOADING -> {
                     llprogressBar.visibility = View.VISIBLE
                 }
-                ApiResource.ApiStatus.ERROR -> {
+                ApiResult.ApiStatus.ERROR -> {
                     llprogressBar.visibility = View.GONE
                 }
             }
@@ -99,6 +98,6 @@ class IndividualAccountFragment: DaggerFragment() {
     }
 
     private fun backToUserAccounts() {
-        fragmentManager?.popBackStack()
+        activity?.supportFragmentManager?.popBackStack()
     }
 }
